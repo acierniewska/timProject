@@ -23,10 +23,10 @@ public class Weather implements Serializable {
 	private String weatherName;
 
 	@Column(name = "temperature_from", nullable = false)
-	private Double temperatureFrom;
+	private Integer temperatureFrom;
 
 	@Column(name = "temperature_to", nullable = false)
-	private Double temperatureTo;
+	private Integer temperatureTo;
 
 	public long getWeatherId() {
 		return weatherId;
@@ -44,19 +44,19 @@ public class Weather implements Serializable {
 		this.weatherName = weatherName;
 	}
 
-	public Double getTemperatureFrom() {
+	public Integer getTemperatureFrom() {
 		return temperatureFrom;
 	}
 
-	public void setTemperatureFrom(Double temperatureFrom) {
+	public void setTemperatureFrom(Integer temperatureFrom) {
 		this.temperatureFrom = temperatureFrom;
 	}
 
-	public Double getTemperatureTo() {
+	public Integer getTemperatureTo() {
 		return temperatureTo;
 	}
 
-	public void setTemperatureTo(Double temperatureTo) {
+	public void setTemperatureTo(Integer temperatureTo) {
 		this.temperatureTo = temperatureTo;
 	}
 
