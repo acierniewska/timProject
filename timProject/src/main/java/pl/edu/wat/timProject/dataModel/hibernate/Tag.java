@@ -25,7 +25,7 @@ public class Tag implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long tagId;
 
-	@Column(name = "tag_name", nullable = false)
+	@Column(name = "tag_name", nullable = false, unique = true)
 	private String tagName;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

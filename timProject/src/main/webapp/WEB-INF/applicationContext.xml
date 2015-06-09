@@ -11,10 +11,10 @@
     http://www.springframework.org/schema/context/spring-context-3.2.xsd 
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
-	<!-- Enable Spring Annotation Configuration -->
 	<context:annotation-config />
 	<!-- Scan for all of Spring components such as Spring Service -->
-	<context:component-scan base-package="com.journaldev.spring.service"></context:component-scan>
+	<context:component-scan base-package="pl.edu.wat.timProject.services"></context:component-scan>
+
 	<!-- Create Data Source bean -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
