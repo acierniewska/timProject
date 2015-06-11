@@ -24,7 +24,7 @@ public class WeatherService implements Serializable {
 	}
 
 	@Transactional
-	public List<Tag> listTags() {
+	public List<Weather> listWeather() {
 		return getSessionFactory().getCurrentSession()
 				.createQuery("from Weather").list();
 	}
