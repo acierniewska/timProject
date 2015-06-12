@@ -20,7 +20,6 @@
 				<f:selectItem itemLabel="Wybierz rodzaj" noSelectionOption="true" />
 				<f:selectItems value="#{clothesTypeReg.enums}" var="e"
 					itemLabel="#{e.name}" itemValue="#{e}" />
-				<f:ajax render="@form" />
 			</p:selectOneMenu>
 
 			<p:outputLabel for="weather" value="Na pogodę:" />
