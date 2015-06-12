@@ -4,26 +4,36 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
 	xmlns:of="http://omnifaces.org/functions">
+
 <h:head>
 	<title>Register Employee</title>
 </h:head>
-<h:form>
-	<p:growl id="messages" />
-	<p:panelGrid columns="2">
-		<p:outputLabel value="Nazwa taga:" />
-		<p:inputText value="#{clothesTypeReg.clothesType.clothesTypeName}" />
-	</p:panelGrid>
+<body>
+	<h:form>
+		<p:growl id="messages" />
+		<p:panelGrid columns="2">
+			<p:outputLabel value="Nazwa typu:" />
+			<p:inputText value="#{clothesTypeReg.clothesType.clothesTypeName}" />
 
-	<h:outputLabel for="weather" value="Weather: " />
-	<h:selectOneMenu id="weather" value="#{clothesTypeReg.weather}"
-		 converterId="omnifaces.SelectItemsConverter">
-		<f:selectItem itemLabel="Choose item" noSelectionOption="true" />
-		<f:selectItems value="#{clothesTypeReg.weathers}" var="w"
-			itemLabel="#{w.weatherName}" itemValue="#{w}" />
-	</h:selectOneMenu>
+			<p:outputLabel value="Rodzaj:" />
+			<p:selectOneMenu value="#{clothesTypeReg.clothesTypeEnum}">
+				<f:selectItem itemLabel="Wybierz rodzaj" noSelectionOption="true" />
+				<f:selectItems value="#{clothesTypeReg.enums}" var="e"
+					itemLabel="#{e.name}" itemValue="#{e}" />
+				<f:ajax render="@form" />
+			</p:selectOneMenu>
 
+			<p:outputLabel for="weather" value="Na pogodę:" />
+			<p:selectOneMenu id="weather" value="#{clothesTypeReg.weather}"
+				converter="omnifaces.SelectItemsConverter">
+				<f:selectItem itemLabel="Wybierz pogodę" noSelectionOption="true" />
+				<f:selectItems value="#{clothesTypeReg.weathers}" var="w"
+					itemLabel="#{w.weatherName}" itemValue="#{w}" />
+			</p:selectOneMenu>
+		</p:panelGrid>
 
-	<p:commandButton value="Dodaj tag!" action="#{tagReg.register}"
-		update="messages" />
-</h:form>
+		<p:commandButton value="Dodaj tag!"
+			action="#{clothesTypeReg.register}" update="messages" />
+	</h:form>
+</body>
 </html>
