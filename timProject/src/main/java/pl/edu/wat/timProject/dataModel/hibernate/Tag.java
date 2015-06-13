@@ -1,7 +1,7 @@
 package pl.edu.wat.timProject.dataModel.hibernate;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,9 +28,9 @@ public class Tag implements Serializable {
 	@Column(name = "tag_name", nullable = false, unique = true)
 	private String tagName;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "clothes_tag", joinColumns = { @JoinColumn(name = "tag_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "clothes_id", nullable = false, updatable = false) })
-	private Set<Tag> clothesTags;
+	private List<Tag> clothesTags;
 
 	public long getTagId() {
 		return tagId;
@@ -48,11 +48,11 @@ public class Tag implements Serializable {
 		this.tagName = tagName;
 	}
 
-	public Set<Tag> getClothesTags() {
+	public List<Tag> getClothesTags() {
 		return clothesTags;
 	}
 
-	public void setClothesTags(Set<Tag> clothesTags) {
+	public void setClothesTags(List<Tag> clothesTags) {
 		this.clothesTags = clothesTags;
 	}
 

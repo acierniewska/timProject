@@ -37,11 +37,11 @@ public class RegisterClothesType implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		this.weathers = weatherService.listWeather();
+		this.weathers = weatherService.listAll();
 		this.enums = new LinkedList<>();
 		for (ClothesTypeEnum ctEnum : ClothesTypeEnum.values())
 			enums.add(ctEnum);
-		
+
 	}
 
 	public String register() {

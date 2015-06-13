@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<h:head>
+	<title>Register Employee</title>
+</h:head>
+<body>
+	<h:form>
+		<p:fileUpload fileUploadListener="#{clothesReg.handleFileUpload}"
+			mode="advanced" dragDropSupport="true" update="messages"
+			sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+
+		<p:growl id="messages" showDetail="true" />
+	</h:form>
+	<h:form>
+		<p:growl id="messages" />
+
+		<p:panelGrid columns="2">
+			<p:outputLabel value="Opis ubrania:" />
+			<p:inputText value="#{clothesReg.clothes.clothesDesc}" />
+
+			<p:outputLabel for="type" value="Typ ubrania:" />
+			<p:selectOneMenu id="type" value="#{clothesReg.clothes.clothesType}"
+				converter="omnifaces.SelectItemsConverter">
+				<f:selectItem itemLabel="Wybierz rodzaj ubrania"
+					noSelectionOption="true" />
+				<f:selectItems value="#{clothesReg.clothesTypes}" var="type"
+					itemLabel="#{type.clothesTypeName}" itemValue="#{type}" />
+			</p:selectOneMenu>
+
+			<p:outputLabel for="colour" value="Główny kolor:" />
+			<p:selectOneMenu id="colour" value="#{clothesReg.clothes.mainColor}"
+				converter="omnifaces.SelectItemsConverter">
+				<f:selectItem itemLabel="Wybierz kolor" noSelectionOption="true" />
+				<f:selectItems value="#{clothesReg.colours}" var="c"
+					itemLabel="#{c.colourName}" itemValue="#{c}" />
+			</p:selectOneMenu>
+
+			<p:outputLabel value="Tagi ubrania" for="themes" />
+			<p:autoComplete id="themes" multiple="true"
+				value="#{clothesReg.clothes.clothesTags}"
+				completeMethod="#{clothesReg.completeTag}" var="tag"
+				itemLabel="#{tag.tagName}" itemValue="#{tag}"
+				converter="omnifaces.SelectItemsConverter" forceSelection="true">
+				<p:column>
+					<h:outputText value="#{tag.tagName}" />
+				</p:column>
+				<f:attribute name="collectionType" value="java.util.HashSet" />
+			</p:autoComplete>
+		</p:panelGrid>
+
+		<p:commandButton value="Dodaj tag!" action="#{clothesReg.register}"
+			ajax="false" update="messages" />
+	</h:form>
+</body>
+</html>

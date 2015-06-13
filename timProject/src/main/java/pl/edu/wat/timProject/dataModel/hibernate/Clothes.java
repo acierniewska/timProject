@@ -1,7 +1,7 @@
 package pl.edu.wat.timProject.dataModel.hibernate;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -37,12 +37,15 @@ public class Clothes implements Serializable {
 	@JoinColumns({ @JoinColumn(name = "colour_id", referencedColumnName = "colour_id", nullable = false) })
 	private Colour mainColor;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "clothes_tag", joinColumns = { @JoinColumn(name = "clothes_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "tag_id", nullable = false, updatable = false) })
-	private Set<Tag> clothesTags;
+	private List<Tag> clothesTags;
 
 	@Column(name = "clothes_desc", nullable = true)
 	private String clothesDesc;
+
+	@Column(name = "clothes_pic", length = 100000, nullable = false)
+	private byte[] clothesPic;
 
 	public long getClothesId() {
 		return clothesId;
@@ -68,11 +71,11 @@ public class Clothes implements Serializable {
 		this.mainColor = mainColor;
 	}
 
-	public Set<Tag> getClothesTags() {
+	public List<Tag> getClothesTags() {
 		return clothesTags;
 	}
 
-	public void setClothesTags(Set<Tag> clothesTags) {
+	public void setClothesTags(List<Tag> clothesTags) {
 		this.clothesTags = clothesTags;
 	}
 
@@ -83,4 +86,13 @@ public class Clothes implements Serializable {
 	public void setClothesDesc(String clothesDesc) {
 		this.clothesDesc = clothesDesc;
 	}
+
+	public byte[] getClothesPic() {
+		return clothesPic;
+	}
+
+	public void setClothesPic(byte[] clothesPic) {
+		this.clothesPic = clothesPic;
+	}
+
 }

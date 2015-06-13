@@ -23,7 +23,7 @@ public class ClothesTypeService implements Serializable {
 	}
 
 	@Transactional
-	public List<ClothesType> listClothesTypes() {
+	public List<ClothesType> listAll() {
 		return getSessionFactory().getCurrentSession()
 				.createQuery("from ClothesType").list();
 	}

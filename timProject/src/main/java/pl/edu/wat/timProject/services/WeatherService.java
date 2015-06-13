@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import pl.edu.wat.timProject.dataModel.hibernate.Tag;
 import pl.edu.wat.timProject.dataModel.hibernate.Weather;
 
 @Component
@@ -24,7 +23,7 @@ public class WeatherService implements Serializable {
 	}
 
 	@Transactional
-	public List<Weather> listWeather() {
+	public List<Weather> listAll() {
 		return getSessionFactory().getCurrentSession()
 				.createQuery("from Weather").list();
 	}
