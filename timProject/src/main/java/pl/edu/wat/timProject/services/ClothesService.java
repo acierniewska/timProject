@@ -23,6 +23,16 @@ public class ClothesService implements Serializable {
 	}
 
 	@Transactional
+	public byte[] getPic(Long id) {
+		List list = getSessionFactory().getCurrentSession()
+				.createQuery(" from Clothes where id=?").setParameter(0, id)
+				.list();
+		Clothes c = (Clothes) list.get(0);
+
+		return c.getClothesPic();
+	}
+
+	@Transactional
 	public List<Clothes> listAll() {
 		return getSessionFactory().getCurrentSession()
 				.createQuery("from Clothes").list();
