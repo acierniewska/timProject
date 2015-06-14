@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import pl.edu.wat.timProject.dataModel.hibernate.Clothes;
-import pl.edu.wat.timProject.dataModel.hibernate.Tag;
 import pl.edu.wat.timProject.services.ClothesService;
 
 @Component
@@ -26,11 +25,10 @@ public class JSONService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Clothes> getClothesInJSON() {
 		List<Clothes> clothes = clothesService.listAll();
-		for (Clothes c : clothes) {
-			for (Tag t : c.getClothesTags()) {
-				t.getClothesTags().clear();
-			}
-		}
+		/*
+		 * for (Clothes c : clothes) { for (Tag t : c.getClothesTags()) {
+		 * t.getClothesTags().clear(); } }
+		 */
 		return clothes;
 	}
 

@@ -1,18 +1,12 @@
 package pl.edu.wat.timProject.dataModel.hibernate;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -27,10 +21,6 @@ public class Tag implements Serializable {
 
 	@Column(name = "tag_name", nullable = false, unique = true)
 	private String tagName;
-
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "clothes_tag", joinColumns = { @JoinColumn(name = "tag_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "clothes_id", nullable = false, updatable = false) })
-	private List<Clothes> clothesTags;
 
 	public long getTagId() {
 		return tagId;
@@ -48,20 +38,10 @@ public class Tag implements Serializable {
 		this.tagName = tagName;
 	}
 
-	public List<Clothes> getClothesTags() {
-		return clothesTags;
-	}
-
-	public void setClothesTags(List<Clothes> clothesTags) {
-		this.clothesTags = clothesTags;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((clothesTags == null) ? 0 : clothesTags.hashCode());
 		result = prime * result + (int) (tagId ^ (tagId >>> 32));
 		result = prime * result + ((tagName == null) ? 0 : tagName.hashCode());
 		return result;
@@ -76,11 +56,6 @@ public class Tag implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Tag other = (Tag) obj;
-		if (clothesTags == null) {
-			if (other.clothesTags != null)
-				return false;
-		} else if (!clothesTags.equals(other.clothesTags))
-			return false;
 		if (tagId != other.tagId)
 			return false;
 		if (tagName == null) {
@@ -93,7 +68,7 @@ public class Tag implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Tag [tagId=" + tagId + ", tagName=" + tagName
-				+ ", clothesTags=" + clothesTags + "]";
+		return "Tag [tagId=" + tagId + ", tagName=" + tagName + "]";
 	}
+
 }

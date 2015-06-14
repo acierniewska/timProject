@@ -27,9 +27,10 @@ public class ClothesService implements Serializable {
 		List list = getSessionFactory().getCurrentSession()
 				.createQuery(" from Clothes where id=?").setParameter(0, id)
 				.list();
-		Clothes c = (Clothes) list.get(0);
+		if (list.isEmpty())
+			return new byte[1];
 
-		return c.getClothesPic();
+		return ((Clothes) list.get(0)).getClothesPic();
 	}
 
 	@Transactional
