@@ -2,17 +2,55 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
 <h:head>
 	<title>Register Employee</title>
 </h:head>
-<h:form>
-	<p:growl id="messages" />
-	<p:panelGrid columns="2">
-		<p:outputLabel value="Nazwa taga:" />
-		<p:inputText value="#{tagReg.tag.tagName}" />
-	</p:panelGrid>
-	<p:commandButton value="Dodaj tag!" action="#{tagReg.register}"
-		update="messages" />
+<h:form id="mainForm">
+	<p:dataGrid var="clothes" value="#{allClothesView.clothes}" columns="6"
+		layout="grid" rows="12" paginator="true"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		rowsPerPageTemplate="6,12,16">
+		<f:facet name="header">Ubrania</f:facet>
+			<h:panelGrid columns="1" width="150">
+				<o:graphicImage value="#{imageStreamer.getById(clothes.clothesId)}"
+					height="195px" width="150px" />
+				<p:commandLink update=":mainForm:dlg" oncomplete="PF('dlg').show()"
+					title="Wyświetl szczegóły">
+					<f:setPropertyActionListener value="#{clothes}"
+						target="#{allClothesView.selectedClothes}" />
+					<h:outputText styleClass="ui-icon ui-icon-search"
+						style="margin:0 auto;" />
+				</p:commandLink>
+			</h:panelGrid>
+	</p:dataGrid>
+
+	<p:dialog id="dlg" header="Podgląd zdjęcia" widgetVar="dlg"
+		modal="true" draggable="false" resizable="false">
+		<h:panelGrid columns="2">
+			<o:graphicImage
+				value="#{imageStreamer.getById(allClothesView.selectedClothes.clothesId)}"
+				width="510px" height="680px" />
+
+			<h:panelGrid columns="2">
+				<h:outputText value="Typ ubrania: " style="font-weight: bold;" />
+				<h:outputText
+					value="#{allClothesView.selectedClothes.clothesType.clothesTypeName}" />
+				
+				<h:outputText value="Kolor główny: " style="font-weight: bold;" />
+				<h:outputText
+					value="#{allClothesView.selectedClothes.mainColor.colourName}" />
+				
+				<h:outputText value="Opis ubrania: " style="font-weight: bold;" />
+				<h:outputText value="#{allClothesView.selectedClothes.clothesDesc}" />
+				
+				<h:outputText value="Tagi ubrania: " style="font-weight: bold"/>
+				<p:dataList value="#{allClothesView.selectedClothes.clothesTags}" var="t" type="definition">
+				#{t.tagName}
+				</p:dataList>
+			</h:panelGrid>
+		</h:panelGrid>
+	</p:dialog>
 </h:form>
 </html>
