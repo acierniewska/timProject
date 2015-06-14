@@ -30,7 +30,7 @@ public class Tag implements Serializable {
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "clothes_tag", joinColumns = { @JoinColumn(name = "tag_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "clothes_id", nullable = false, updatable = false) })
-	private List<Tag> clothesTags;
+	private List<Clothes> clothesTags;
 
 	public long getTagId() {
 		return tagId;
@@ -48,11 +48,11 @@ public class Tag implements Serializable {
 		this.tagName = tagName;
 	}
 
-	public List<Tag> getClothesTags() {
+	public List<Clothes> getClothesTags() {
 		return clothesTags;
 	}
 
-	public void setClothesTags(List<Tag> clothesTags) {
+	public void setClothesTags(List<Clothes> clothesTags) {
 		this.clothesTags = clothesTags;
 	}
 

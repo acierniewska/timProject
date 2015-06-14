@@ -14,6 +14,9 @@ public class ImageStreamer {
 	private ClothesService clothesService;
 
 	public byte[] getById(Long id) {
+		if (id == null)
+			return new byte[1];
+
 		return clothesService.getPic(id);
 	}
 

@@ -14,7 +14,7 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.event.SelectEvent;
 
 import pl.edu.wat.timProject.dataModel.hibernate.Clothes;
 import pl.edu.wat.timProject.dataModel.hibernate.ClothesType;
@@ -25,7 +25,7 @@ import pl.edu.wat.timProject.services.ClothesTypeService;
 import pl.edu.wat.timProject.services.ColourService;
 import pl.edu.wat.timProject.services.TagService;
 
-@ManagedBean(name = "clothesReg")
+@ManagedBean(name = "clothesReg", eager = true)
 @SessionScoped
 public class RegisterClothes implements Serializable {
 	private static final long serialVersionUID = -4359280736416081580L;
@@ -43,9 +43,11 @@ public class RegisterClothes implements Serializable {
 	private TagService tagService;
 
 	private Clothes clothes = new Clothes();
+	private Tag tag;
+
+	private List<Tag> tags = new ArrayList<Tag>();
 	private List<ClothesType> clothesTypes;
 	private List<Colour> colours;
-	private UploadedFile uploadFile;
 
 	@PostConstruct
 	public void init() {
@@ -54,6 +56,8 @@ public class RegisterClothes implements Serializable {
 	}
 
 	public String register() {
+		clothes.setClothesTags(tags);
+		clothes.setClothesId(10L);
 		clothesService.register(clothes);
 		FacesContext.getCurrentInstance().addMessage(
 				null,
@@ -82,7 +86,7 @@ public class RegisterClothes implements Serializable {
 
 		for (int i = 0; i < allThemes.size(); i++) {
 			Tag tag = allThemes.get(i);
-			if (tag.getTagName().startsWith(query)) {
+			if (tag.getTagName().startsWith(query) && !tags.contains(tag)) {
 				clothesTag.add(tag);
 			}
 		}
@@ -146,12 +150,26 @@ public class RegisterClothes implements Serializable {
 		this.colours = colours;
 	}
 
-	public UploadedFile getUploadFile() {
-		return uploadFile;
+	public List<Tag> getTags() {
+		return tags;
 	}
 
-	public void setUploadFile(UploadedFile uploadFile) {
-		this.uploadFile = uploadFile;
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+
+	public void handleSelect(SelectEvent e) {
+		Tag t = (Tag) e.getObject();
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Add Player", ""));
+	}
+
+	public Tag getTag() {
+		return tag;
+	}
+
+	public void setTag(Tag tag) {
+		this.tag = tag;
 	}
 
 }

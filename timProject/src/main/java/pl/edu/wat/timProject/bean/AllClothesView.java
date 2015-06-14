@@ -17,6 +17,7 @@ public class AllClothesView {
 	private ClothesService clothesService;
 
 	private List<Clothes> clothes;
+	private Clothes selectedClothes = new Clothes();
 
 	@PostConstruct
 	public void init() {
@@ -38,4 +39,13 @@ public class AllClothesView {
 	public void setClothes(List<Clothes> clothes) {
 		this.clothes = clothes;
 	}
+
+	public Clothes getSelectedClothes() {
+		return selectedClothes;
+	}
+
+	public void setSelectedClothes(Clothes selectedClothes) {
+		this.selectedClothes = selectedClothes;
+	}
+
 }

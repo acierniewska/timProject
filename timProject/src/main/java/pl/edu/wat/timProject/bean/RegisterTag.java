@@ -2,17 +2,17 @@ package pl.edu.wat.timProject.bean;
 
 import java.io.Serializable;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import pl.edu.wat.timProject.dataModel.hibernate.Tag;
 import pl.edu.wat.timProject.services.TagService;
 
-@ManagedBean(name="tagReg")
-@SessionScoped
+@ManagedBean(name = "tagReg")
+@ApplicationScoped
 public class RegisterTag implements Serializable {
 	private static final long serialVersionUID = -4359280736416081580L;
 
