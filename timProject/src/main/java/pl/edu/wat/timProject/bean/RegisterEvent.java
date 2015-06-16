@@ -1,13 +1,12 @@
 package pl.edu.wat.timProject.bean;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.TransferEvent;
@@ -21,7 +20,8 @@ import pl.edu.wat.timProject.services.EventService;
 import pl.edu.wat.timProject.services.TagService;
 
 @ManagedBean(name = "eventReg")
-@ViewScoped
+// @ViewScoped
+@SessionScoped
 public class RegisterEvent {
 	@ManagedProperty("#{eventService}")
 	private EventService eventService;
@@ -44,8 +44,6 @@ public class RegisterEvent {
 	}
 
 	public void onTagTransfer(TransferEvent event) {
-		List<Tag> selectedTags = (List<Tag>) event.getItems();
-
 	}
 
 	public void onClothesTypeTransfer(TransferEvent event) {

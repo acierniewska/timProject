@@ -1,6 +1,7 @@
 package pl.edu.wat.timProject.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,10 +12,15 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.TransferEvent;
+import org.primefaces.model.DualListModel;
+
 import pl.edu.wat.timProject.dataModel.ClothesTypeEnum;
 import pl.edu.wat.timProject.dataModel.hibernate.ClothesType;
+import pl.edu.wat.timProject.dataModel.hibernate.Event;
 import pl.edu.wat.timProject.dataModel.hibernate.Weather;
 import pl.edu.wat.timProject.services.ClothesTypeService;
+import pl.edu.wat.timProject.services.EventService;
 import pl.edu.wat.timProject.services.WeatherService;
 
 @ManagedBean(name = "clothesTypeReg")
@@ -28,12 +34,17 @@ public class RegisterClothesType implements Serializable {
 	@ManagedProperty("#{weatherService}")
 	private WeatherService weatherService;
 
+	@ManagedProperty("#{eventService}")
+	private EventService eventService;
+
 	private ClothesType clothesType = new ClothesType();
 	private Weather weather = new Weather();
-	private List<Weather> weathers;
 	private ClothesTypeEnum clothesTypeEnum;
 
 	private List<ClothesTypeEnum> enums;
+	private List<Weather> weathers;
+
+	private DualListModel<Event> events;
 
 	@PostConstruct
 	public void init() {
@@ -42,12 +53,20 @@ public class RegisterClothesType implements Serializable {
 		for (ClothesTypeEnum ctEnum : ClothesTypeEnum.values())
 			enums.add(ctEnum);
 
+		events = new DualListModel<Event>(eventService.listAll(),
+				new ArrayList<Event>());
+
 	}
 
 	public String register() {
 		clothesType.setClothesTypeValue(clothesTypeEnum.ordinal());
 		clothesType.setWeather(getWeather());
 		clothesTypeService.register(clothesType);
+
+		for (Event e : events.getTarget()) {
+			e.getEventsClothesTypes().add(clothesType);
+			eventService.update(e);
+		}
 
 		clothesType = new ClothesType();
 		setWeather(new Weather());
@@ -115,6 +134,25 @@ public class RegisterClothesType implements Serializable {
 
 	public void setEnums(List<ClothesTypeEnum> enums) {
 		this.enums = enums;
+	}
+
+	public EventService getEventService() {
+		return eventService;
+	}
+
+	public void setEventService(EventService eventService) {
+		this.eventService = eventService;
+	}
+
+	public DualListModel<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(DualListModel<Event> events) {
+		this.events = events;
+	}
+
+	public void onEventTransfer(TransferEvent e) {
 	}
 
 }

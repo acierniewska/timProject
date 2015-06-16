@@ -29,6 +29,11 @@ public class EventService implements Serializable {
 				.createQuery("from Event").list();
 	}
 
+	@Transactional
+	public void update(Event e) {
+		getSessionFactory().getCurrentSession().update(e);
+	}
+
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -36,4 +41,5 @@ public class EventService implements Serializable {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+
 }
