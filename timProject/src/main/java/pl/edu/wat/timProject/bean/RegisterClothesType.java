@@ -53,9 +53,12 @@ public class RegisterClothesType implements Serializable {
 		for (ClothesTypeEnum ctEnum : ClothesTypeEnum.values())
 			enums.add(ctEnum);
 
+		initDualListModel();
+	}
+
+	private void initDualListModel() {
 		events = new DualListModel<Event>(eventService.listAll(),
 				new ArrayList<Event>());
-
 	}
 
 	public String register() {
@@ -71,6 +74,7 @@ public class RegisterClothesType implements Serializable {
 		clothesType = new ClothesType();
 		setWeather(new Weather());
 		clothesTypeEnum = null;
+		initDualListModel();
 
 		FacesContext.getCurrentInstance().addMessage(
 				null,
