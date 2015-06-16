@@ -21,7 +21,7 @@
 		<p:autoComplete id="themes" multiple="true" value="#{clothesReg.tags}"
 			completeMethod="#{clothesReg.completeTag}" var="tag"
 			itemLabel="#{tag.tagName}" itemValue="#{tag}"
-			converter="#{entityConverter}" forceSelection="true">
+			converter="#{tagConverter}" forceSelection="true">
 			<p:column>
 				<h:outputText value="#{tag.tagName}" />
 			</p:column>

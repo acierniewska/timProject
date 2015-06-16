@@ -3,6 +3,7 @@ package pl.edu.wat.timProject.rest;
 import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -14,7 +15,7 @@ import pl.edu.wat.timProject.dataModel.hibernate.Clothes;
 import pl.edu.wat.timProject.services.ClothesService;
 
 @Component
-@Path("/json/clothes")
+@Path("/clothes")
 public class JSONService {
 
 	@Autowired
@@ -25,11 +26,15 @@ public class JSONService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Clothes> getClothesInJSON() {
 		List<Clothes> clothes = clothesService.listAll();
-		/*
-		 * for (Clothes c : clothes) { for (Tag t : c.getClothesTags()) {
-		 * t.getClothesTags().clear(); } }
-		 */
+
 		return clothes;
+	}
+
+	@POST
+	@Path("/get")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void createClothes(Clothes clothes) {
+		clothesService.register(clothes);
 	}
 
 	public ClothesService getClothesService() {

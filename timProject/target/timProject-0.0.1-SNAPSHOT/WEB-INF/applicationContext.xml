@@ -13,8 +13,9 @@
 
 	<context:annotation-config />
 	<!-- Scan for all of Spring components such as Spring Service -->
-	<context:component-scan base-package="pl.edu.wat.timProject.services"></context:component-scan>
-
+	<context:component-scan base-package="pl.edu.wat.timProject.services"/>
+	<context:component-scan base-package="pl.edu.wat.timProject.rest"/>
+	
 	<!-- Create Data Source bean -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">

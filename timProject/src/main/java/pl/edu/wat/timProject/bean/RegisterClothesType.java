@@ -48,6 +48,11 @@ public class RegisterClothesType implements Serializable {
 		clothesType.setClothesTypeValue(clothesTypeEnum.ordinal());
 		clothesType.setWeather(getWeather());
 		clothesTypeService.register(clothesType);
+
+		clothesType = new ClothesType();
+		setWeather(new Weather());
+		clothesTypeEnum = null;
+
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage("The Employee "

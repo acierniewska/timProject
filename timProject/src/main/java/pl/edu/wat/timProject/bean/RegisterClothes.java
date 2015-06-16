@@ -57,12 +57,16 @@ public class RegisterClothes implements Serializable {
 
 	public String register() {
 		clothes.setClothesTags(tags);
-		clothes.setClothesId(10L);
 		clothesService.register(clothes);
+
+		clothes = new Clothes();
+		tags = new ArrayList<Tag>();
+
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage("The Employee "
 						+ " Is Registered Successfully"));
+
 		return "";
 	}
 

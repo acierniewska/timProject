@@ -24,8 +24,8 @@ public class TagService implements Serializable {
 
 	@Transactional
 	public List<Tag> listAll() {
-		return getSessionFactory().getCurrentSession()
-				.createQuery("from Tag").list();
+		return getSessionFactory().getCurrentSession().createQuery("from Tag")
+				.list();
 	}
 
 	public SessionFactory getSessionFactory() {

@@ -22,6 +22,8 @@ public class RegisterTag implements Serializable {
 
 	public String register() {
 		tagService.register(tag);
+
+		tag = new Tag();
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage("The Employee " + this.tag.getTagName()
