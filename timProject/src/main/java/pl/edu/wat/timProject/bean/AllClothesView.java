@@ -5,9 +5,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
@@ -18,7 +18,7 @@ import pl.edu.wat.timProject.services.ClothesService;
 import pl.edu.wat.timProject.services.TagService;
 
 @ManagedBean(name = "allClothesView")
-@ApplicationScoped
+@ViewScoped
 public class AllClothesView {
 	@ManagedProperty("#{clothesService}")
 	private ClothesService clothesService;
@@ -53,9 +53,13 @@ public class AllClothesView {
 	}
 
 	public void handleSelect(SelectEvent e) {
-		Tag t = (Tag) e.getObject();
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Add Player", ""));
+	}
+
+	public void deleteSelectedClothes() {
+		clothesService.delete(selectedClothes);
+		init();
 	}
 
 	public ClothesService getClothesService() {

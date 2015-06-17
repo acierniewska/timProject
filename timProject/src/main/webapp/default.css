@@ -22,6 +22,12 @@
 	height: 283px;
 }
 
+.ui-autocomplete-multiple-container {
+	width: 500px !important;
+	min-height: 300px !importnat;
+	max-height: 300px !importnat;
+}
+
 #page {
 	margin: 0 auto;
 }

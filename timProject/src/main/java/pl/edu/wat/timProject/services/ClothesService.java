@@ -1,6 +1,7 @@
 package pl.edu.wat.timProject.services;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import pl.edu.wat.timProject.dataModel.hibernate.Clothes;
+import pl.edu.wat.timProject.dataModel.hibernate.Tag;
 
 @Component
 public class ClothesService implements Serializable {
@@ -25,6 +27,17 @@ public class ClothesService implements Serializable {
 	@Transactional
 	public void update(Clothes selectedClothes) {
 		sessionFactory.getCurrentSession().update(selectedClothes);
+	}
+
+	@Transactional
+	public void delete(Clothes selectedClothes) {
+
+		List<Tag> tags = new ArrayList<Tag>();
+		for (Tag t : selectedClothes.getClothesTags())
+			tags.add(t);
+
+		selectedClothes.getClothesTags().clear();
+		sessionFactory.getCurrentSession().delete(selectedClothes);
 	}
 
 	@Transactional
@@ -51,5 +64,4 @@ public class ClothesService implements Serializable {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-
 }
