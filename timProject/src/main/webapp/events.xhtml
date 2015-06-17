@@ -16,7 +16,7 @@
 						rowKey="#{allEventView.selectedEvent.eventId}" rows="12"
 						paginator="true">
 						<f:facet name="header">Wydarzenia</f:facet>
-						<p:column headerText="Nazwa wydarzenia" >
+						<p:column headerText="Nazwa wydarzenia">
 							<h:outputText value="#{event.eventName}" />
 						</p:column>
 						<p:column width="15">
@@ -38,8 +38,8 @@
 							</p:commandLink>
 						</p:column>
 						<p:column width="15">
-							<p:commandLink action="#{allEventView.delete}"
-								type="button" title="Usuń" update=":mainForm">
+							<p:commandLink action="#{allEventView.delete}" type="button"
+								title="Usuń" update=":mainForm">
 								<f:setPropertyActionListener value="#{event}"
 									target="#{allEventView.selectedEvent}" />
 								<h:outputText styleClass="ui-icon ui-icon-close"
@@ -86,21 +86,37 @@
 
 				<p:dialog id="dlg" header="Podgląd zdjęcia" widgetVar="dlg"
 					modal="true" draggable="false" resizable="false">
-					<h:outputText value="Nazwa: " style="font-weight: bold;" />
-					<h:outputText value="#{allEventView.selectedEvent.eventName}" />
+					<p:panelGrid columns="2">
+						<h:outputText value="Nazwa: " style="font-weight: bold;" />
+						<h:outputText value="#{allEventView.selectedEvent.eventName}" />
+					</p:panelGrid>
+					<p:dataList value="#{allEventView.selectedEvent.eventsTag}"
+						var="tag" type="ordered">
+						<f:facet name="header" value="Tagi" />
+					        #{tag.tagName}
+					    </p:dataList>
+
+					<p:dataList
+						value="#{allEventView.selectedEvent.eventsClothesTypes}" var="ct"
+						type="ordered">
+						<f:facet name="header" value="Typy ubrań" />
+					        #{ct.clothesTypeName}
+					    </p:dataList>
 				</p:dialog>
 			</h:form>
 
 			<h:form id="editForm">
 				<p:dialog id="dlg" header="Podgląd zdjęcia" widgetVar="dlg"
 					modal="true" draggable="false" resizable="false">
-					<h:outputText value="Nazwa: " style="font-weight: bold;" />
-					<h:inputText value="#{eventReg.event.eventName}" />
-
 					<p:panelGrid columns="2">
-						<p:outputLabel value="Tagi wydarzenia" for="tags" />
-						<p:pickList id="tags" value="#{eventReg.tags}" var="tag"
-							itemValue="#{tag}" itemLabel="#{tag.tagName}" showCheckbox="true"
+						<p:outputLabel value="Nazwa wydarzenia:" />
+						<p:inputText value="#{allEventView.selectedEvent.eventName}"
+							style="width:450px" />
+
+						<p:outputLabel value="Tagi wydarzenia:" for="tags" />
+						<p:pickList id="tags" value="#{allEventView.tags}" var="tag"
+							style="width:20px!important" itemValue="#{tag}"
+							itemLabel="#{tag.tagName}" showCheckbox="true"
 							showSourceFilter="true" showTargetFilter="true"
 							filterMatchMode="contains" converter="#{tagConverter}">
 							<f:facet name="sourceCaption">Dostępne tagi</f:facet>
@@ -108,18 +124,23 @@
 							<p:ajax event="transfer" listener="#{eventReg.onTagTransfer}" />
 						</p:pickList>
 
-						<p:outputLabel value="Rodzaje ubrań wydarzenia" for="clothesTypes" />
-						<p:pickList id="clothesTypes" value="#{eventReg.clothesTypes}"
-							var="ct" itemValue="#{ct}" itemLabel="#{ct.clothesTypeName}"
-							showCheckbox="true" showSourceFilter="true"
-							showTargetFilter="true" filterMatchMode="contains"
-							converter="#{clothesTypeConverter}">
+						<p:outputLabel value="Rodzaje ubrań wydarzenia:"
+							for="clothesTypes" />
+						<p:pickList id="clothesTypes" value="#{allEventView.clothesType}"
+							style="width:20px!important" var="ct" itemValue="#{ct}"
+							itemLabel="#{ct.clothesTypeName}" showCheckbox="true"
+							showSourceFilter="true" showTargetFilter="true"
+							filterMatchMode="contains" converter="#{clothesTypeConverter}">
 							<f:facet name="sourceCaption">Dostępne rodzaje</f:facet>
 							<f:facet name="targetCaption">Wydarzenia</f:facet>
 
 							<p:ajax event="transfer"
 								listener="#{eventReg.onClothesTypeTransfer}" />
 						</p:pickList>
+
+						<p:outputLabel value=" " />
+						<p:commandButton value="Zatwierdź zmiany"
+							action="#{allEventView.update}" ajax="false" update="mainForm" />
 					</p:panelGrid>
 				</p:dialog>
 

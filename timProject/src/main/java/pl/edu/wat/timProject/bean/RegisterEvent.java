@@ -70,6 +70,13 @@ public class RegisterEvent {
 		return "";
 	}
 
+	public void update() {
+		event.setEventsClothesTypes(clothesTypes.getTarget());
+		event.setEventsTag(tags.getTarget());
+		eventService.update(event);
+		init();
+	}
+
 	public EventService getEventService() {
 		return eventService;
 	}
