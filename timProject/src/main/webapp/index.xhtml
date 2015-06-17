@@ -56,7 +56,7 @@
 								value="#{allClothesView.selectedClothes.mainColor.colourName}" />
 
 							<h:outputText value="Opis ubrania: " style="font-weight: bold;" />
-							<p:inputTextarea disabled="true"
+							<p:inputTextarea disabled="true" autoResize="false"
 								value="#{allClothesView.selectedClothes.clothesDesc}" cols="3"
 								style="width:492px !important" />
 
@@ -108,7 +108,7 @@
 						<p:outputLabel value="Opis ubrania:" />
 						<p:inputTextarea
 							value="#{allClothesView.selectedClothes.clothesDesc}" cols="3"
-							style="width:492px !important" />
+							autoResize="false" style="width:492px !important" />
 
 						<h:outputText for="tags" value="Tagi ubrania: "
 							style="font-weight: bold" />

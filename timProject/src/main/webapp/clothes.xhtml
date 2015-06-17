@@ -5,57 +5,59 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
 	xmlns:of="http://omnifaces.org/functions">
 
-<h:head>
-	<title>Register Employee</title>
-</h:head>
 <body>
-	<h:form>
-		<p:fileUpload fileUploadListener="#{clothesReg.handleFileUpload}"
-			mode="simple" dragDropSupport="true" update="messages" skin="simple"
-			sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-		<p:growl id="messages" showDetail="true" />
-	</h:form>
+	<ui:composition template="template.xhtml">
+		<ui:define name="content">
+			<h:form enctype="multipart/form-data">
+				<p:growl id="messages" />
 
-	<h:form prependId="false">
-		<p:outputLabel value="Tagi ubrania" for="themes" />
-		<p:autoComplete id="themes" multiple="true" value="#{clothesReg.tags}"
-			completeMethod="#{clothesReg.completeTag}" var="tag"
-			itemLabel="#{tag.tagName}" itemValue="#{tag}"
-			converter="#{tagConverter}" forceSelection="true">
-			<p:column>
-				<h:outputText value="#{tag.tagName}" />
-			</p:column>
-			<p:ajax event="itemSelect" listener="#{clothesReg.handleSelect}" />
-		</p:autoComplete>
-	</h:form> 
+				<p:panelGrid columns="2">
+					<p:outputLabel for="pic" value="Plik ze zdjęciem:" />
+					<p:fileUpload id="pic" value="#{clothesReg.file}" mode="simple"
+						fileLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+						fileLimitMessage="Plik może mieć maksymalnie 1 MB!"></p:fileUpload>
+					<p:outputLabel for="type" value="Typ ubrania:" />
 
-	<h:form>
-		<p:growl id="messages" />
+					<p:selectOneMenu id="type" style="width:500px !important"
+						value="#{clothesReg.clothes.clothesType}" converter="#{clothesTypeConverter}">
+						<f:selectItem itemLabel="Wybierz rodzaj ubrania"
+							noSelectionOption="true" />
+						<f:selectItems value="#{clothesReg.clothesTypes}" var="t"
+							itemLabel="#{t.clothesTypeName}" itemValue="#{t}" />
+					</p:selectOneMenu>
 
-		<p:panelGrid columns="2">
-			<p:outputLabel value="Opis ubrania:" />
-			<p:inputText value="#{clothesReg.clothes.clothesDesc}" />
+					<p:outputLabel for="colour" value="Główny kolor:" />
+					<p:selectOneMenu id="colour" style="width:500px !important"
+						value="#{clothesReg.clothes.mainColor}"
+						converter="omnifaces.SelectItemsConverter">
+						<f:selectItem itemLabel="Wybierz kolor" noSelectionOption="true" />
+						<f:selectItems value="#{clothesReg.colours}" var="c"
+							itemLabel="#{c.colourName}" itemValue="#{c}" />
+					</p:selectOneMenu>
 
-			<p:outputLabel for="type" value="Typ ubrania:" />
-			<p:selectOneMenu id="type" value="#{clothesReg.clothes.clothesType}"
-				converter="omnifaces.SelectItemsConverter">
-				<f:selectItem itemLabel="Wybierz rodzaj ubrania"
-					noSelectionOption="true" />
-				<f:selectItems value="#{clothesReg.clothesTypes}" var="type"
-					itemLabel="#{type.clothesTypeName}" itemValue="#{type}" />
-			</p:selectOneMenu>
 
-			<p:outputLabel for="colour" value="Główny kolor:" />
-			<p:selectOneMenu id="colour" value="#{clothesReg.clothes.mainColor}"
-				converter="omnifaces.SelectItemsConverter">
-				<f:selectItem itemLabel="Wybierz kolor" noSelectionOption="true" />
-				<f:selectItems value="#{clothesReg.colours}" var="c"
-					itemLabel="#{c.colourName}" itemValue="#{c}" />
-			</p:selectOneMenu>
-		</p:panelGrid>
+					<p:outputLabel value="Opis ubrania:" />
+					<p:inputTextarea value="#{clothesReg.clothes.clothesDesc}" cols="3"
+						autoResize="false" style="width:492px !important" />
 
-		<p:commandButton value="Dodaj tag!" action="#{clothesReg.register}"
-			ajax="false" update="messages" />
-	</h:form>
+					<p:outputLabel value="Tagi ubrania" for="themes" />
+					<p:autoComplete id="themes" multiple="true"
+						value="#{clothesReg.tags}"
+						completeMethod="#{clothesReg.completeTag}" var="tag"
+						itemLabel="#{tag.tagName}" itemValue="#{tag}"
+						converter="#{tagConverter}" forceSelection="true">
+						<p:column>
+							<h:outputText value="#{tag.tagName}" />
+						</p:column>
+						<p:ajax event="itemSelect" listener="#{clothesReg.handleSelect}" />
+					</p:autoComplete>
+				</p:panelGrid>
+
+				<p:commandButton value="Dodaj ubranie!"
+					action="#{clothesReg.register}" ajax="false" update="messages" />
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
 </body>
 </html>

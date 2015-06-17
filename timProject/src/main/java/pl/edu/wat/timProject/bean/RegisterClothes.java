@@ -9,12 +9,12 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.io.IOUtils;
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.UploadedFile;
 
 import pl.edu.wat.timProject.dataModel.hibernate.Clothes;
 import pl.edu.wat.timProject.dataModel.hibernate.ClothesType;
@@ -26,7 +26,7 @@ import pl.edu.wat.timProject.services.ColourService;
 import pl.edu.wat.timProject.services.TagService;
 
 @ManagedBean(name = "clothesReg", eager = true)
-@SessionScoped
+@ViewScoped
 public class RegisterClothes implements Serializable {
 	private static final long serialVersionUID = -4359280736416081580L;
 
@@ -44,6 +44,8 @@ public class RegisterClothes implements Serializable {
 
 	private Clothes clothes = new Clothes();
 	private Tag tag;
+	private UploadedFile file;
+	private ClothesType ct;
 
 	private List<Tag> tags = new ArrayList<Tag>();
 	private List<ClothesType> clothesTypes;
@@ -56,6 +58,7 @@ public class RegisterClothes implements Serializable {
 	}
 
 	public String register() {
+		addUploadedFileToClothes();
 		clothes.setClothesTags(tags);
 		clothesService.register(clothes);
 
@@ -70,17 +73,13 @@ public class RegisterClothes implements Serializable {
 		return "";
 	}
 
-	public void handleFileUpload(FileUploadEvent event) {
+	private void addUploadedFileToClothes() {
 		byte[] foto = null;
 		try {
-			foto = IOUtils.toByteArray(event.getFile().getInputstream());
+			foto = IOUtils.toByteArray(file.getInputstream());
 			clothes.setClothesPic(foto);
-			FacesMessage msg = new FacesMessage("Succesful", event.getFile()
-					.getFileName() + " is uploaded.");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return;
 		}
 	}
 
@@ -163,7 +162,6 @@ public class RegisterClothes implements Serializable {
 	}
 
 	public void handleSelect(SelectEvent e) {
-		Tag t = (Tag) e.getObject();
 	}
 
 	public Tag getTag() {
@@ -174,4 +172,19 @@ public class RegisterClothes implements Serializable {
 		this.tag = tag;
 	}
 
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
+
+	public ClothesType getCt() {
+		return ct;
+	}
+
+	public void setCt(ClothesType ct) {
+		this.ct = ct;
+	}
 }

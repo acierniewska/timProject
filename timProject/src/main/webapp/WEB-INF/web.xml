@@ -56,9 +56,12 @@
 	</filter>
 	
 	<filter-mapping>
-	    <filter-name>PrimeFaces FileUpload Filter</filter-name>
-	    <servlet-name>Faces Servlet</servlet-name>
-	    <dispatcher>REQUEST</dispatcher>
+	   <filter-name>PrimeFaces FileUpload Filter</filter-name>
+	   <servlet-name>Faces Servlet</servlet-name>
+	  	<dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+        <dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
 	
 	<context-param>
@@ -67,10 +70,11 @@
         	/WEB-INF/faces-config.xml
    		</param-value>
 	</context-param>
+	
 	<context-param>
-		<param-name>primefaces.UPLOADER</param-name>
-		<param-value>auto</param-value>
-	</context-param>	
+    	<param-name>primefaces.UPLOADER</param-name>
+    	<param-value>commons</param-value>
+  	</context-param>
 	
 	 <!-- Spring + RESTEasy -->
     <listener>
