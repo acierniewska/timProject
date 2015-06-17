@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" href="default.css" type="text/css" />
+	<title>DressCode - zarządzanie</title>
+</h:head>
+
+<h:body>
+	<div id="header">
+		<h:form>
+			<p:toolbar>
+				<f:facet name="left" style="txt-align: center;">
+					<h:graphicImage width="36" height="36"
+						style="float:left; padding-top:5px;"
+						url="logo.png"></h:graphicImage>
+					<h:outputLabel value="System DressCode"
+						style="padding:10px;font-size:20px;float:right;" />
+				</f:facet>
+				<f:facet name="right">
+					<h:outputLabel value="Autor: Anna Cierniewska I4B2S4"
+						style="font-size:10px;" />
+				</f:facet>
+			</p:toolbar>
+		</h:form>
+		
+	</div>
+
+	<div id="menu">
+		<ui:include src="west.xhtml" />
+	</div>
+
+	<div id="content">
+		<ui:insert name="content" />
+	</div>
+</h:body>
+</html>

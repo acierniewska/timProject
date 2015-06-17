@@ -1,0 +1,50 @@
+.ui-panelgrid td {
+	border-color: white !important;
+	background-color: white !important;
+}
+
+.ui-tabs-left>.ui-tabs-nav {
+	float: left;
+	height: 86px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.ui-icon.fa {
+	text-indent: 0px;
+	background-image: none;
+	height: 17px;
+	width: 25px;
+	color: #fcd113;
+}
+
+.ui-datagrid-column {
+	height: 283px;
+}
+
+#page {
+	margin: 0 auto;
+}
+
+#header {
+	text-align: left;
+}
+
+#menu {
+	float: left;
+	width: 17%;
+	overflow: hidden;
+	margin-bottom: 5px;
+}
+
+#content {
+	float: right;
+	width: 83%;
+	text-align: center;
+	margin-top: 10px;
+}
+
+#wrapper {
+	width: 100%;
+	overflow: hidden;
+}

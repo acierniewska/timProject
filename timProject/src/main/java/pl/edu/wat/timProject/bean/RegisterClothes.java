@@ -164,8 +164,6 @@ public class RegisterClothes implements Serializable {
 
 	public void handleSelect(SelectEvent e) {
 		Tag t = (Tag) e.getObject();
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Add Player", ""));
 	}
 
 	public Tag getTag() {
