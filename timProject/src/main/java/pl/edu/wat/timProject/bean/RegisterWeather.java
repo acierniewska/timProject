@@ -2,6 +2,7 @@ package pl.edu.wat.timProject.bean;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -11,7 +12,7 @@ import javax.faces.context.FacesContext;
 import pl.edu.wat.timProject.dataModel.hibernate.Weather;
 import pl.edu.wat.timProject.services.WeatherService;
 
-@ManagedBean(name="weatherReg")
+@ManagedBean(name = "weatherReg")
 @SessionScoped
 public class RegisterWeather implements Serializable {
 	private static final long serialVersionUID = -4359280736416081580L;
@@ -20,11 +21,18 @@ public class RegisterWeather implements Serializable {
 	private WeatherService weatherService;
 	private Weather weather = new Weather();
 
+	@PostConstruct
+	public void init() {
+		weather.setTemperatureFrom(15);
+		weather.setTemperatureTo(30);
+	}
+
 	public String register() {
 		weatherService.register(weather);
 		FacesContext.getCurrentInstance().addMessage(
 				null,
-				new FacesMessage("The Employee " + this.weather.getWeatherName()
+				new FacesMessage("The Employee "
+						+ this.weather.getWeatherName()
 						+ " Is Registered Successfully"));
 		return "";
 	}

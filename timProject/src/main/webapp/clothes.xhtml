@@ -51,10 +51,11 @@
 						</p:column>
 						<p:ajax event="itemSelect" listener="#{clothesReg.handleSelect}" />
 					</p:autoComplete>
-				</p:panelGrid>
-
-				<p:commandButton value="Dodaj ubranie!"
+					
+					<p:outputLabel value=" " />
+					<p:commandButton value="Dodaj ubranie!" style="width:501px;"
 					action="#{clothesReg.register}" ajax="false" update="messages" />
+				</p:panelGrid>
 			</h:form>
 
 		</ui:define>

@@ -4,34 +4,35 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
 	xmlns:of="http://omnifaces.org/functions">
-<h:head>
-	<title>Register Employee</title>
-</h:head>
-<h:form>
-	<p:growl id="messages" />
-	<p:panelGrid columns="2">
-		<p:outputLabel value="Nazwa pogody" />
-		<p:inputText value="#{weatherReg.weather.weatherName}" />
+<body>
+	<ui:composition template="template.xhtml">
+		<ui:define name="content">
+			<h:form>
+				<p:growl id="messages" />
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Nazwa pogody:" />
+					<p:inputText value="#{weatherReg.weather.weatherName}" style="width:198px" />
 
+					<p:outputLabel value="Temperatura:" />
+					<h:panelGrid columns="1" style="margin-bottom: 10px">
+						<h:outputText id="displayRange"
+							value="#{weatherReg.weather.temperatureFrom}°C - #{weatherReg.weather.temperatureTo}°C" />
+						<p:slider for="txt6,txt7" display="displayRange"
+							style="width: 200px" range="true" minValue="-20" maxValue="40"
+							displayTemplate="{min}°C - {max}°C" />
+					</h:panelGrid>
 
-		<p:outputLabel value="Dopuszczalna temperatura na zewnątrz" />
-		<h:panelGrid columns="1" style="margin-bottom: 10px">
-			<h:outputText id="displayRange"
-				value="#{weatherReg.weather.temperatureFrom}°C - #{weatherReg.weather.temperatureTo}°C" />
-			<p:slider for="txt6,txt7" display="displayRange" style="width: 200px"
-				range="true"  minValue="-20" maxValue="40" displayTemplate="{min}°C - {max}°C" />
-		</h:panelGrid>
-		<h:inputHidden id="txt6" value="#{weatherReg.weather.temperatureFrom}" />
-		<h:inputHidden id="txt7" value="#{weatherReg.weather.temperatureTo}" />
+					<h:inputHidden id="txt6"
+						value="#{weatherReg.weather.temperatureFrom}" />
+					<h:inputHidden id="txt7"
+						value="#{weatherReg.weather.temperatureTo}" />
 
-<!-- 
-		<p:outputLabel value="Temperatura od" />
-		<p:inputText value="#{weatherReg.weather.temperatureFrom}" />
-
-		<p:outputLabel value="Temperatura do" />
-		<p:inputText value="#{weatherReg.weather.temperatureTo}" /> -->
-	</p:panelGrid>
-	<p:commandButton value="Dodaj pogodę!" action="#{weatherReg.register}"
-		update="messages" />
-</h:form>
+					<p:outputLabel value=" " />
+					<p:commandButton value="Dodaj pogodę!" style="width:205px;"
+						action="#{weatherReg.register}" update="messages" />
+				</p:panelGrid>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
 </html>

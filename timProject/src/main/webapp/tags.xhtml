@@ -3,27 +3,35 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<title>Register Employee</title>
-</h:head>
-<h:form>
-	<p:growl id="messages" />
-	<p:panelGrid columns="2">
-		<p:outputLabel value="Nazwa taga:" />
-		<p:inputText value="#{tagReg.tag.tagName}" />
 
-		<p:outputLabel value="Wydarzenia" for="events" />
-		<p:pickList id="events" value="#{tagReg.events}" var="e"
-			itemValue="#{e}" itemLabel="#{e.eventName}" showCheckbox="true"
-			showSourceFilter="true" showTargetFilter="true"
-			filterMatchMode="contains" converter="#{eventConverter}">
-			<f:facet name="sourceCaption">Dostępne rodzaje</f:facet>
-			<f:facet name="targetCaption">Wydarzenia</f:facet>
+<body>
+	<ui:composition template="template.xhtml">
+		<ui:define name="content">
+			<h:form>
 
-			<p:ajax event="transfer" listener="#{tagReg.onEventTransfer}" />
-		</p:pickList>
-	</p:panelGrid>
-	<p:commandButton value="Dodaj tag!" action="#{tagReg.register}"
-		update="messages" />
-</h:form>
+				<p:growl id="messages" />
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Nazwa taga:" />
+					<p:inputText value="#{tagReg.tag.tagName}" style="width:450px" />
+
+					<p:outputLabel value="Wydarzenia" for="events" />
+					<p:pickList id="events" value="#{tagReg.events}" var="e"
+						itemValue="#{e}" itemLabel="#{e.eventName}" showCheckbox="true"
+						showSourceFilter="true" showTargetFilter="true"
+						filterMatchMode="contains" converter="#{eventConverter}"
+						style="width:20px!important">
+						<f:facet name="sourceCaption">Dostępne</f:facet>
+						<f:facet name="targetCaption">Wydarzenia</f:facet>
+
+						<p:ajax event="transfer" listener="#{tagReg.onEventTransfer}" />
+					</p:pickList>
+
+					<p:outputLabel value=" " />
+					<p:commandButton value="Dodaj tag!" action="#{tagReg.register}"
+						style="width:458px" update="messages" />
+				</p:panelGrid>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
 </html>
