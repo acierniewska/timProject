@@ -85,21 +85,21 @@
 				</p:panelGrid>
 
 				<p:dialog id="dlg" header="Podgląd zdjęcia" widgetVar="dlg"
-					modal="true" draggable="false" resizable="false">
+					modal="true">
 					<p:panelGrid columns="2">
 						<h:outputText value="Nazwa: " style="font-weight: bold;" />
 						<h:outputText value="#{allEventView.selectedEvent.eventName}" />
 					</p:panelGrid>
 					<p:dataList value="#{allEventView.selectedEvent.eventsTag}"
 						var="tag" type="ordered">
-						<f:facet name="header" value="Tagi" />
+						<f:facet name="header">Tagi</f:facet>
 					        #{tag.tagName}
-					    </p:dataList>
-
-					<p:dataList
+					</p:dataList>
+					<h:outputText value=" " style="font-weight: bold;" />
+					<p:dataList style="height:100px!important"
 						value="#{allEventView.selectedEvent.eventsClothesTypes}" var="ct"
 						type="ordered">
-						<f:facet name="header" value="Typy ubrań" />
+						<f:facet name="header">Typy ubrań</f:facet>
 					        #{ct.clothesTypeName}
 					    </p:dataList>
 				</p:dialog>
@@ -107,7 +107,7 @@
 
 			<h:form id="editForm">
 				<p:dialog id="dlg" header="Podgląd zdjęcia" widgetVar="dlg"
-					modal="true" draggable="false" resizable="false">
+					modal="true">
 					<p:panelGrid columns="2">
 						<p:outputLabel value="Nazwa wydarzenia:" />
 						<p:inputText value="#{allEventView.selectedEvent.eventName}"

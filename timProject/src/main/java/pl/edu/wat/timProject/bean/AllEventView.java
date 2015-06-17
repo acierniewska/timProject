@@ -43,6 +43,8 @@ public class AllEventView {
 	}
 
 	public void update() {
+		selectedEvent.setEventsClothesTypes(clothesType.getTarget());
+		selectedEvent.setEventsTag(tags.getTarget());
 		eventService.update(selectedEvent);
 		init();
 	}
