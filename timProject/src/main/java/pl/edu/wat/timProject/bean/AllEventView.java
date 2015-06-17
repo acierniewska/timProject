@@ -24,6 +24,16 @@ public class AllEventView {
 		events = eventService.listAll();
 	}
 
+	public void update() {
+		eventService.update(selectedEvent);
+		init();
+	}
+
+	public void delete() {
+		eventService.delete(selectedEvent);
+		init();
+	}
+
 	public EventService getEventService() {
 		return eventService;
 	}

@@ -6,7 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.TransferEvent;
@@ -20,8 +20,8 @@ import pl.edu.wat.timProject.services.EventService;
 import pl.edu.wat.timProject.services.TagService;
 
 @ManagedBean(name = "eventReg")
-// @ViewScoped
-@SessionScoped
+@ViewScoped
+// @SessionScoped
 public class RegisterEvent {
 	@ManagedProperty("#{eventService}")
 	private EventService eventService;
@@ -29,6 +29,9 @@ public class RegisterEvent {
 	private TagService tagService;
 	@ManagedProperty("#{clothesTypeService}")
 	private ClothesTypeService clothesTypeService;
+
+	@ManagedProperty("#{allEventView}")
+	private AllEventView allEventView;
 
 	private Event event = new Event();
 
@@ -57,6 +60,8 @@ public class RegisterEvent {
 
 		event = new Event();
 		init();
+		allEventView.init();
+
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage("The Employee "
@@ -111,6 +116,14 @@ public class RegisterEvent {
 
 	public void setClothesTypes(DualListModel<ClothesType> clothesTypes) {
 		this.clothesTypes = clothesTypes;
+	}
+
+	public AllEventView getAllEventView() {
+		return allEventView;
+	}
+
+	public void setAllEventView(AllEventView allEventView) {
+		this.allEventView = allEventView;
 	}
 
 }

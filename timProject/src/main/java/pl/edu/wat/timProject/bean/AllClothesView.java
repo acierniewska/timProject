@@ -50,6 +50,7 @@ public class AllClothesView {
 
 	public void update() {
 		clothesService.update(selectedClothes);
+		init();
 	}
 
 	public void handleSelect(SelectEvent e) {

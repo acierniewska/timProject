@@ -24,14 +24,21 @@ public class EventService implements Serializable {
 	}
 
 	@Transactional
-	public List<Event> listAll() {
-		return getSessionFactory().getCurrentSession()
-				.createQuery("from Event").list();
+	public void update(Event event) {
+		getSessionFactory().getCurrentSession().update(event);
 	}
 
 	@Transactional
-	public void update(Event e) {
-		getSessionFactory().getCurrentSession().update(e);
+	public void delete(Event event) {
+		event.getEventsTag().clear();
+		event.getEventsClothesTypes().clear();
+		sessionFactory.getCurrentSession().delete(event);
+	}
+
+	@Transactional
+	public List<Event> listAll() {
+		return getSessionFactory().getCurrentSession()
+				.createQuery("from Event").list();
 	}
 
 	public SessionFactory getSessionFactory() {
