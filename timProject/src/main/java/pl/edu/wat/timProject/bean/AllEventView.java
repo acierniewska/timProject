@@ -1,12 +1,13 @@
 package pl.edu.wat.timProject.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.DualListModel;
 
@@ -18,8 +19,11 @@ import pl.edu.wat.timProject.services.EventService;
 import pl.edu.wat.timProject.services.TagService;
 
 @ManagedBean
-@ApplicationScoped
-public class AllEventView {
+@ViewScoped
+// @ApplicationScoped
+public class AllEventView implements Serializable {
+	private static final long serialVersionUID = -4398851965938204711L;
+
 	@ManagedProperty("#{eventService}")
 	private EventService eventService;
 	@ManagedProperty("#{tagService}")

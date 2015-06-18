@@ -1,5 +1,6 @@
 package pl.edu.wat.timProject.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,9 @@ import pl.edu.wat.timProject.services.TagService;
 
 @ManagedBean(name = "allClothesView")
 @ViewScoped
-public class AllClothesView {
+public class AllClothesView implements Serializable {
+	private static final long serialVersionUID = -6614263647974925282L;
+
 	@ManagedProperty("#{clothesService}")
 	private ClothesService clothesService;
 	@ManagedProperty("#{tagService}")

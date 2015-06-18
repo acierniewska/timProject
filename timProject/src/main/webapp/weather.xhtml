@@ -7,30 +7,126 @@
 <body>
 	<ui:composition template="template.xhtml">
 		<ui:define name="content">
-			<h:form>
+			<h:form id="mainForm">
 				<p:growl id="messages" />
 				<p:panelGrid columns="2">
-					<p:outputLabel value="Nazwa pogody:" />
-					<p:inputText value="#{weatherReg.weather.weatherName}" style="width:198px" />
+					<p:dataTable var="weather" value="#{allWeatherView.weathers}" 
+						rows="12" rowKey="#{allWeatherView.selectedWeather.weatherId}"
+						paginator="true">
+						<f:facet name="header">Pogoda</f:facet>
+						<p:column headerText="Nazwa pogody">
+							<h:outputText value="#{weather.weatherName}" />
+						</p:column>
+						<p:column headerText="Temp od">
+							<h:outputText value="#{weather.temperatureFrom}°C" />
+						</p:column>
+						<p:column headerText="Temp do">
+							<h:outputText value="#{weather.temperatureTo}°C" />
+						</p:column>
+						<p:column width="15">
+							<p:commandLink update=":mainForm:dlg"
+								oncomplete="PF('dlg').show()" title="Szczegóły">
+								<f:setPropertyActionListener value="#{weather}"
+									target="#{allWeatherView.selectedWeather}" />
+								<h:outputText styleClass="ui-icon ui-icon-search"
+									style="margin:0 auto;" />
+							</p:commandLink>
+						</p:column>
+						<p:column width="15">
+							<p:commandLink update=":editForm:dlg"
+								oncomplete="PF('dlg').show()" title="Modyfikuj">
+								<f:setPropertyActionListener value="#{weather}"
+									target="#{allWeatherView.selectedWeather}" />
+								<h:outputText styleClass="ui-icon ui-icon-pencil"
+									style="margin:0 auto;" />
+							</p:commandLink>
+						</p:column>
+						<p:column width="15">
+							<p:commandLink action="#{allWeatherView.deleteSelectedWeather}"
+								type="button" title="Usuń" update=":mainForm">
+								<f:setPropertyActionListener value="#{weather}"
+									target="#{allWeatherView.selectedWeather}" />
+								<h:outputText styleClass="ui-icon ui-icon-close"
+									style="margin:0 auto;" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
 
-					<p:outputLabel value="Temperatura:" />
-					<h:panelGrid columns="1" style="margin-bottom: 10px">
-						<h:outputText id="displayRange"
-							value="#{weatherReg.weather.temperatureFrom}°C - #{weatherReg.weather.temperatureTo}°C" />
-						<p:slider for="txt6,txt7" display="displayRange"
-							style="width: 200px" range="true" minValue="-20" maxValue="40"
-							displayTemplate="{min}°C - {max}°C" />
-					</h:panelGrid>
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Nazwa pogody:" />
+						<p:inputText value="#{weatherReg.weather.weatherName}"
+							style="width:198px" />
 
-					<h:inputHidden id="txt6"
-						value="#{weatherReg.weather.temperatureFrom}" />
-					<h:inputHidden id="txt7"
-						value="#{weatherReg.weather.temperatureTo}" />
+						<p:outputLabel value="Temperatura:" />
+						<h:panelGrid columns="1" style="margin-bottom: 10px">
+							<h:outputText id="displayRange"
+								value="#{weatherReg.weather.temperatureFrom}°C - #{weatherReg.weather.temperatureTo}°C" />
+							<p:slider for="txt6,txt7" display="displayRange"
+								style="width: 200px" range="true" minValue="-20" maxValue="40"
+								displayTemplate="{min}°C - {max}°C" />
+						</h:panelGrid>
 
-					<p:outputLabel value=" " />
-					<p:commandButton value="Dodaj pogodę!" style="width:205px;"
-						action="#{weatherReg.register}" update="messages" />
+						<h:inputHidden id="txt6"
+							value="#{weatherReg.weather.temperatureFrom}" />
+						<h:inputHidden id="txt7"
+							value="#{weatherReg.weather.temperatureTo}" />
+
+						<p:outputLabel value=" " />
+						<p:commandButton value="Dodaj pogodę!" style="width:205px;"
+							action="#{weatherReg.register}" update="messages" />
+					</p:panelGrid>
 				</p:panelGrid>
+
+				<p:dialog id="dlg" header="Podgląd pogody" widgetVar="dlg"
+					modal="true">
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Nazwa pogody:" style="font-weight: bold;" />
+						<p:inputText value="#{allWeatherView.selectedWeather.weatherName}"
+							style="width:198px" />
+
+						<p:outputLabel value="Temperatura:" style="font-weight: bold;" />
+						<h:panelGrid columns="1" style="margin-bottom: 10px">
+							<h:outputText id="displayRange1" style="font-weight: bold;"
+								value="#{allWeatherView.selectedWeather.temperatureFrom}°C - #{allWeatherView.selectedWeather.temperatureTo}°C" />
+							<p:slider for="from,to" display="displayRange1" disabled="true"
+								style="width: 200px" range="true" minValue="-20" maxValue="40"
+								displayTemplate="{min}°C - {max}°C" />
+						</h:panelGrid>
+						<h:inputHidden id="from"
+							value="#{allWeatherView.selectedWeather.temperatureFrom}" />
+						<h:inputHidden id="to"
+							value="#{allWeatherView.selectedWeather.temperatureTo}" />
+					</p:panelGrid>
+				</p:dialog>
+			</h:form>
+
+			<h:form id="editForm">
+				<p:dialog id="dlg" header="Podgląd zdjęcia" widgetVar="dlg"
+					modal="true">
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Nazwa pogody:" style="font-weight: bold;" />
+						<p:inputText value="#{allWeatherView.selectedWeather.weatherName}"
+							style="width:198px" />
+
+						<p:outputLabel value="Temperatura:" style="font-weight: bold;" />
+						<h:panelGrid columns="1" style="margin-bottom: 10px">
+							<h:outputText id="displayRange" style="font-weight: bold;"
+								value="#{allWeatherView.selectedWeather.temperatureFrom}°C - #{allWeatherView.selectedWeather.temperatureTo}°C" />
+							<p:slider for="txt6,txt7" display="displayRange"
+								style="width: 200px" range="true" minValue="-20" maxValue="40"
+								displayTemplate="{min}°C - {max}°C" />
+						</h:panelGrid>
+						<h:inputHidden id="txt6"
+							value="#{allWeatherView.selectedWeather.temperatureFrom}" />
+						<h:inputHidden id="txt7"
+							value="#{allWeatherView.selectedWeather.temperatureTo}" />
+
+						<p:outputLabel value=" " />
+						<p:commandButton value="Zatwierdź zmiany!" style="width:205px;"
+							action="#{allWeatherView.updateSelectedWeather}" ajax="false"
+							update="mainForm" />
+					</p:panelGrid>
+				</p:dialog>
 			</h:form>
 		</ui:define>
 	</ui:composition>

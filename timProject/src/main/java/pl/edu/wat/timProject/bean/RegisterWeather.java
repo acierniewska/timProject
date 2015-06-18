@@ -19,6 +19,10 @@ public class RegisterWeather implements Serializable {
 
 	@ManagedProperty("#{weatherService}")
 	private WeatherService weatherService;
+
+	@ManagedProperty("#{allWeatherView}")
+	private AllWeatherView allWeatherView;
+
 	private Weather weather = new Weather();
 
 	@PostConstruct
@@ -34,6 +38,10 @@ public class RegisterWeather implements Serializable {
 				new FacesMessage("The Employee "
 						+ this.weather.getWeatherName()
 						+ " Is Registered Successfully"));
+
+		weather = new Weather();
+		allWeatherView.init();
+
 		return "";
 	}
 
@@ -51,5 +59,13 @@ public class RegisterWeather implements Serializable {
 
 	public void setWeather(Weather weather) {
 		this.weather = weather;
+	}
+
+	public AllWeatherView getAllWeatherView() {
+		return allWeatherView;
+	}
+
+	public void setAllWeatherView(AllWeatherView allWeatherView) {
+		this.allWeatherView = allWeatherView;
 	}
 }

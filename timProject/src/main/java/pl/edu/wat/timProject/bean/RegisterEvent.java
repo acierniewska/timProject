@@ -1,5 +1,6 @@
 package pl.edu.wat.timProject.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
@@ -21,8 +22,9 @@ import pl.edu.wat.timProject.services.TagService;
 
 @ManagedBean(name = "eventReg")
 @ViewScoped
-// @SessionScoped
-public class RegisterEvent {
+public class RegisterEvent implements Serializable {
+	private static final long serialVersionUID = 2884861031911614455L;
+
 	@ManagedProperty("#{eventService}")
 	private EventService eventService;
 	@ManagedProperty("#{tagService}")

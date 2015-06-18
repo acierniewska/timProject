@@ -23,6 +23,16 @@ public class WeatherService implements Serializable {
 	}
 
 	@Transactional
+	public void update(Weather w) {
+		sessionFactory.getCurrentSession().update(w);
+	}
+
+	@Transactional
+	public void delete(Weather w) {
+		sessionFactory.getCurrentSession().delete(w);
+	}
+
+	@Transactional
 	public List<Weather> listAll() {
 		return getSessionFactory().getCurrentSession()
 				.createQuery("from Weather").list();
