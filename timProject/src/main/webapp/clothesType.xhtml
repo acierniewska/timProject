@@ -8,47 +8,169 @@
 <body>
 	<ui:composition template="template.xhtml">
 		<ui:define name="content">
-			<h:form>
+			<h:form id="mainForm">
+
 				<p:growl id="messages" />
 				<p:panelGrid columns="2">
-					<p:outputLabel value="Nazwa:" />
-					<p:inputText value="#{clothesTypeReg.clothesType.clothesTypeName}"
-						style="width:442px !important" />
+					<p:dataTable var="clothesType"
+						value="#{allClothesTypeView.clothesTypes}"
+						rowKey="#{allClothesTypeView.selectedClothesType.clothesTypeId}"
+						rows="12" paginator="true">
+						<f:facet name="header">Wydarzenia</f:facet>
+						<p:column headerText="Nazwa rodzaju ubrania">
+							<h:outputText value="#{clothesType.clothesTypeName}" />
+						</p:column>
 
-					<p:outputLabel value="Typ:" />
-					<p:selectOneMenu value="#{clothesTypeReg.clothesTypeEnum}"
-						style="width:450px !important">
-						<f:selectItem itemLabel="Wybierz rodzaj" noSelectionOption="true" />
-						<f:selectItems value="#{clothesTypeReg.enums}" var="e"
-							itemLabel="#{e.name}" itemValue="#{e}" />
-					</p:selectOneMenu>
+						<p:column headerText="Typ ubrania">
+							<h:outputText
+								value="#{allClothesTypeView.nameFromIntValue(clothesType)}" />
+						</p:column>
 
-					<p:outputLabel for="weather" value="Na pogodę:" />
-					<p:selectOneMenu id="weather" value="#{clothesTypeReg.weather}"
-						converter="omnifaces.SelectItemsConverter"
-						style="width:450px !important">
-						<f:selectItem itemLabel="Wybierz pogodę" noSelectionOption="true" />
-						<f:selectItems value="#{clothesTypeReg.weathers}" var="w"
-							itemLabel="#{w.weatherName}" itemValue="#{w}" />
-					</p:selectOneMenu>
+						<p:column headerText="Pogoda">
+							<h:outputText value="#{clothesType.weather.weatherName}" />
+						</p:column>
 
-					<p:outputLabel value="Wydarzenia:" for="events" />
-					<p:pickList id="events" value="#{clothesTypeReg.events}" var="e"
-						itemValue="#{e}" itemLabel="#{e.eventName}" showCheckbox="true"
-						showSourceFilter="true" showTargetFilter="true"
-						style="width:20px!important" filterMatchMode="contains"
-						converter="#{eventConverter}">
-						<f:facet name="sourceCaption">Dostępne rodzaje</f:facet>
-						<f:facet name="targetCaption">Wydarzenia</f:facet>
-						<p:ajax event="transfer"
-							listener="#{clothesTypeReg.onEventTransfer}" />
-					</p:pickList>
-					
-					<p:outputLabel value=" " />
-					<p:commandButton value="Dodaj rodzaj ubrania!" style="width:458px"
-						action="#{clothesTypeReg.register}" update="messages" />
+						<p:column width="15">
+							<p:commandLink update=":mainForm:dlg"
+								oncomplete="PF('dlg').show()" title="Szczegóły">
+								<f:setPropertyActionListener value="#{clothesType}"
+									target="#{allClothesTypeView.selectedClothesType}" />
+								<h:outputText styleClass="ui-icon ui-icon-search"
+									style="margin:0 auto;" />
+							</p:commandLink>
+						</p:column>
+						<p:column width="15">
+							<p:commandLink update=":editForm:dlg"
+								oncomplete="PF('dlg').show()" title="Modyfikuj">
+								<f:setPropertyActionListener value="#{clothesType}"
+									target="#{allClothesTypeView.selectedClothesType}" />
+								<h:outputText styleClass="ui-icon ui-icon-pencil"
+									style="margin:0 auto;" />
+							</p:commandLink>
+						</p:column>
+						<p:column width="15">
+							<p:commandLink
+								action="#{allClothesTypeView.deleteSelectedClothesType}"
+								type="button" title="Usuń" update=":mainForm">
+								<f:setPropertyActionListener value="#{clothesType}"
+									target="#{allClothesTypeView.selectedClothesType}" />
+								<h:outputText styleClass="ui-icon ui-icon-close"
+									style="margin:0 auto;" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+
+
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Nazwa:" />
+						<p:inputText value="#{clothesTypeReg.clothesType.clothesTypeName}"
+							style="width:442px !important" />
+
+						<p:outputLabel value="Typ:" />
+						<p:selectOneMenu value="#{clothesTypeReg.clothesTypeEnum}"
+							style="width:450px !important">
+							<f:selectItem itemLabel="Wybierz rodzaj" noSelectionOption="true" />
+							<f:selectItems value="#{clothesTypeReg.enums}" var="e"
+								itemLabel="#{e.name}" itemValue="#{e}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="weather" value="Na pogodę:" />
+						<p:selectOneMenu id="weather" value="#{clothesTypeReg.weather}"
+							converter="omnifaces.SelectItemsConverter"
+							style="width:450px !important">
+							<f:selectItem itemLabel="Wybierz pogodę" noSelectionOption="true" />
+							<f:selectItems value="#{clothesTypeReg.weathers}" var="w"
+								itemLabel="#{w.weatherName}" itemValue="#{w}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Wydarzenia:" for="events" />
+						<p:pickList id="events" value="#{clothesTypeReg.events}" var="e"
+							itemValue="#{e}" itemLabel="#{e.eventName}" showCheckbox="true"
+							showSourceFilter="true" showTargetFilter="true"
+							style="width:20px!important" filterMatchMode="contains"
+							converter="#{eventConverter}">
+							<f:facet name="sourceCaption">Dostępne rodzaje</f:facet>
+							<f:facet name="targetCaption">Wydarzenia</f:facet>
+							<p:ajax event="transfer"
+								listener="#{clothesTypeReg.onEventTransfer}" />
+						</p:pickList>
+
+						<p:outputLabel value=" " />
+						<p:commandButton value="Dodaj rodzaj ubrania!" style="width:458px"
+							ajax="false" action="#{clothesTypeReg.register}"
+							update="mainForm" />
+					</p:panelGrid>
 				</p:panelGrid>
 
+				<p:dialog id="dlg" header="Podgląd tagu" widgetVar="dlg"
+					modal="true">
+					<p:panelGrid columns="2">
+						<h:outputText value="Nazwa: " style="font-weight: bold;" />
+						<h:outputText
+							value="#{allClothesTypeView.selectedClothesType.clothesTypeName}" />
+
+						<h:outputText value="Typ ubrania " style="font-weight: bold;" />
+						<h:outputText
+							value="#{allClothesTypeView.nameFromIntValue(allClothesTypeView.selectedClothesType)}" />
+
+						<h:outputText value="Pogoda: " style="font-weight: bold;" />
+						<h:outputText
+							value="#{allClothesTypeView.selectedClothesType.clothesTypeName}" />
+
+					</p:panelGrid>
+					<p:dataList value="#{allClothesTypeView.events.target}" var="event"
+						type="ordered">
+						<f:facet name="header">Wydarzenia</f:facet>
+					        #{event.eventName}
+					</p:dataList>
+				</p:dialog>
+			</h:form>
+
+			<h:form id="editForm">
+				<p:dialog id="dlg" header="Modyfikacja tagu" widgetVar="dlg"
+					modal="true">
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Nazwa taga:" />
+						<p:inputText
+							value="#{allClothesTypeView.selectedClothesType.clothesTypeName}"
+							style="width:450px" />
+
+						<p:outputLabel value="Typ:" />
+						<p:selectOneMenu value="#{allClothesTypeView.clothesTypeEnum}"
+							style="width:450px !important">
+							<f:selectItem itemLabel="Wybierz rodzaj" noSelectionOption="true" />
+							<f:selectItems value="#{allClothesTypeView.enums}" var="e"
+								itemLabel="#{e.name}" itemValue="#{e}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="weather" value="Na pogodę:" />
+						<p:selectOneMenu id="weather"
+							value="#{allClothesTypeView.selectedClothesType.weather}"
+							converter="omnifaces.SelectItemsConverter"
+							style="width:450px !important">
+							<f:selectItem itemLabel="Wybierz pogodę" noSelectionOption="true" />
+							<f:selectItems value="#{clothesTypeReg.weathers}" var="w"
+								itemLabel="#{w.weatherName}" itemValue="#{w}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Wydarzenia" for="events" />
+						<p:pickList id="events" value="#{allClothesTypeView.events}"
+							var="e" itemValue="#{e}" itemLabel="#{e.eventName}"
+							showCheckbox="true" showSourceFilter="true"
+							showTargetFilter="true" filterMatchMode="contains"
+							converter="#{eventConverter}" style="width:20px!important">
+							<f:facet name="sourceCaption">Dostępne</f:facet>
+							<f:facet name="targetCaption">Wydarzenia</f:facet>
+
+							<p:ajax event="transfer" listener="#{tagReg.onEventTransfer}" />
+						</p:pickList>
+
+						<p:outputLabel value=" " />
+						<p:commandButton value="Zatwierdź zmiany!" style="width:458px"
+							action="#{allClothesTypeView.updateSelectedClothesType}"
+							ajax="false" update="mainForm" />
+					</p:panelGrid>
+				</p:dialog>
 
 			</h:form>
 		</ui:define>

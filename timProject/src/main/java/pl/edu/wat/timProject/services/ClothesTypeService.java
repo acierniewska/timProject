@@ -23,6 +23,16 @@ public class ClothesTypeService implements Serializable {
 	}
 
 	@Transactional
+	public void update(ClothesType ct) {
+		sessionFactory.getCurrentSession().update(ct);
+	}
+
+	@Transactional
+	public void delete(ClothesType ct) {
+		sessionFactory.getCurrentSession().delete(ct);
+	}
+
+	@Transactional
 	public List<ClothesType> listAll() {
 		return getSessionFactory().getCurrentSession()
 				.createQuery("from ClothesType").list();

@@ -30,12 +30,13 @@ public class RegisterClothesType implements Serializable {
 
 	@ManagedProperty("#{clothesTypeService}")
 	private ClothesTypeService clothesTypeService;
-
 	@ManagedProperty("#{weatherService}")
 	private WeatherService weatherService;
-
 	@ManagedProperty("#{eventService}")
 	private EventService eventService;
+
+	@ManagedProperty("#{allClothesTypeView}")
+	private AllClothesTypeView allClothesTypeView;
 
 	private ClothesType clothesType = new ClothesType();
 	private Weather weather = new Weather();
@@ -71,16 +72,17 @@ public class RegisterClothesType implements Serializable {
 			eventService.update(e);
 		}
 
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage("Rodzaj ubrania "
+						+ this.clothesType.getClothesTypeName()
+						+ " zosta³ poprawnie dodany"));
 		clothesType = new ClothesType();
 		setWeather(new Weather());
 		clothesTypeEnum = null;
 		initDualListModel();
+		allClothesTypeView.init();
 
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage("The Employee "
-						+ this.clothesType.getClothesTypeName()
-						+ " Is Registered Successfully"));
 		return "";
 	}
 
@@ -159,4 +161,11 @@ public class RegisterClothesType implements Serializable {
 	public void onEventTransfer(TransferEvent e) {
 	}
 
+	public AllClothesTypeView getAllClothesTypeView() {
+		return allClothesTypeView;
+	}
+
+	public void setAllClothesTypeView(AllClothesTypeView allClothesTypeView) {
+		this.allClothesTypeView = allClothesTypeView;
+	}
 }
