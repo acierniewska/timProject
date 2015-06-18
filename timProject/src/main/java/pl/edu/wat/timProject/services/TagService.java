@@ -23,6 +23,16 @@ public class TagService implements Serializable {
 	}
 
 	@Transactional
+	public void update(Tag tag) {
+		sessionFactory.getCurrentSession().update(tag);
+	}
+
+	@Transactional
+	public void delete(Tag tag) {
+		sessionFactory.getCurrentSession().delete(tag);
+	}
+
+	@Transactional
 	public List<Tag> listAll() {
 		return getSessionFactory().getCurrentSession().createQuery("from Tag")
 				.list();

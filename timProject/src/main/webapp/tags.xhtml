@@ -7,29 +7,110 @@
 <body>
 	<ui:composition template="template.xhtml">
 		<ui:define name="content">
-			<h:form>
+			<h:form id="mainForm">
 
 				<p:growl id="messages" />
 				<p:panelGrid columns="2">
-					<p:outputLabel value="Nazwa taga:" />
-					<p:inputText value="#{tagReg.tag.tagName}" style="width:450px" />
+					<p:dataTable var="tag" value="#{allTagView.tags}"
+						style="height:350px!important"
+						rowKey="#{allTagView.selectedTag.tagId}" rows="12"
+						paginator="true">
+						<f:facet name="header">Wydarzenia</f:facet>
+						<p:column headerText="Nazwa wydarzenia">
+							<h:outputText value="#{tag.tagName}" />
+						</p:column>
+						<p:column width="15">
+							<p:commandLink update=":mainForm:dlg"
+								oncomplete="PF('dlg').show()" title="Szczegóły">
+								<f:setPropertyActionListener value="#{tag}"
+									target="#{allTagView.selectedTag}" />
+								<h:outputText styleClass="ui-icon ui-icon-search"
+									style="margin:0 auto;" />
+							</p:commandLink>
+						</p:column>
+						<p:column width="15">
+							<p:commandLink update=":editForm:dlg"
+								oncomplete="PF('dlg').show()" title="Modyfikuj">
+								<f:setPropertyActionListener value="#{tag}"
+									target="#{allTagView.selectedTag}" />
+								<h:outputText styleClass="ui-icon ui-icon-pencil"
+									style="margin:0 auto;" />
+							</p:commandLink>
+						</p:column>
+						<p:column width="15">
+							<p:commandLink action="#{allTagView.deleteSelectedTag}"
+								type="button" title="Usuń" update=":mainForm">
+								<f:setPropertyActionListener value="#{tag}"
+									target="#{allTagView.selectedTag}" />
+								<h:outputText styleClass="ui-icon ui-icon-close"
+									style="margin:0 auto;" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
 
-					<p:outputLabel value="Wydarzenia" for="events" />
-					<p:pickList id="events" value="#{tagReg.events}" var="e"
-						itemValue="#{e}" itemLabel="#{e.eventName}" showCheckbox="true"
-						showSourceFilter="true" showTargetFilter="true"
-						filterMatchMode="contains" converter="#{eventConverter}"
-						style="width:20px!important">
-						<f:facet name="sourceCaption">Dostępne</f:facet>
-						<f:facet name="targetCaption">Wydarzenia</f:facet>
 
-						<p:ajax event="transfer" listener="#{tagReg.onEventTransfer}" />
-					</p:pickList>
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Nazwa taga:" />
+						<p:inputText value="#{tagReg.tag.tagName}" style="width:450px" />
 
-					<p:outputLabel value=" " />
-					<p:commandButton value="Dodaj tag!" action="#{tagReg.register}"
-						style="width:458px" update="messages" />
+						<p:outputLabel value="Wydarzenia" for="events" />
+						<p:pickList id="events" value="#{tagReg.events}" var="e"
+							itemValue="#{e}" itemLabel="#{e.eventName}" showCheckbox="true"
+							showSourceFilter="true" showTargetFilter="true"
+							filterMatchMode="contains" converter="#{eventConverter}"
+							style="width:20px!important">
+							<f:facet name="sourceCaption">Dostępne</f:facet>
+							<f:facet name="targetCaption">Wydarzenia</f:facet>
+
+							<p:ajax event="transfer" listener="#{tagReg.onEventTransfer}" />
+						</p:pickList>
+
+						<p:outputLabel value=" " />
+						<p:commandButton value="Dodaj tag!" action="#{tagReg.register}"
+							style="width:458px" update="mainForm" />
+					</p:panelGrid>
 				</p:panelGrid>
+
+				<p:dialog id="dlg" header="Podgląd tagu" widgetVar="dlg"
+					modal="true">
+					<p:panelGrid columns="2">
+						<h:outputText value="Nazwa: " style="font-weight: bold;" />
+						<h:outputText value="#{allTagView.selectedTag.tagName}" />
+					</p:panelGrid>
+					<p:dataList value="#{allTagView.events.target}"
+						var="event" type="ordered">
+						<f:facet name="header">Wydarzenia</f:facet>
+					        #{event.eventName}
+					</p:dataList>
+				</p:dialog>
+			</h:form>
+
+			<h:form id="editForm">
+				<p:dialog id="dlg" header="Modyfikacja tagu" widgetVar="dlg"
+					modal="true">
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Nazwa taga:" />
+						<p:inputText value="#{allTagView.selectedTag.tagName}" style="width:450px" />
+
+						<p:outputLabel value="Wydarzenia" for="events" />
+						<p:pickList id="events" value="#{allTagView.events}" var="e"
+							itemValue="#{e}" itemLabel="#{e.eventName}" showCheckbox="true"
+							showSourceFilter="true" showTargetFilter="true"
+							filterMatchMode="contains" converter="#{eventConverter}"
+							style="width:20px!important">
+							<f:facet name="sourceCaption">Dostępne</f:facet>
+							<f:facet name="targetCaption">Wydarzenia</f:facet>
+
+							<p:ajax event="transfer" listener="#{tagReg.onEventTransfer}" />
+						</p:pickList>
+
+						<p:outputLabel value=" " />
+						<p:commandButton value="Zatwierdź zmiany!" style="width:458px"
+							action="#{allTagView.updateSelectedTag}" ajax="false"
+							update="mainForm" />
+					</p:panelGrid>
+				</p:dialog>
+
 			</h:form>
 		</ui:define>
 	</ui:composition>

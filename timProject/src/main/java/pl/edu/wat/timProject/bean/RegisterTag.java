@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.TransferEvent;
@@ -19,15 +19,17 @@ import pl.edu.wat.timProject.services.EventService;
 import pl.edu.wat.timProject.services.TagService;
 
 @ManagedBean(name = "tagReg")
-@ApplicationScoped
+@ViewScoped
+// @ApplicationScoped
 public class RegisterTag implements Serializable {
 	private static final long serialVersionUID = -4359280736416081580L;
 
 	@ManagedProperty("#{tagService}")
 	private TagService tagService;
-
 	@ManagedProperty("#{eventService}")
 	private EventService eventService;
+	@ManagedProperty("#{allTagView}")
+	private AllTagView allTagView;
 
 	private Tag tag = new Tag();
 	private Event event = new Event();
@@ -47,12 +49,15 @@ public class RegisterTag implements Serializable {
 			eventService.update(e);
 		}
 
-		tag = new Tag();
-		init();
 		FacesContext.getCurrentInstance().addMessage(
 				null,
-				new FacesMessage("The Employee " + this.tag.getTagName()
-						+ " Is Registered Successfully"));
+				new FacesMessage("Tag " + this.tag.getTagName()
+						+ " zosta³ dodany."));
+
+		tag = new Tag();
+		init();
+		allTagView.init();
+
 		return "";
 	}
 
@@ -97,5 +102,13 @@ public class RegisterTag implements Serializable {
 	}
 
 	public void onEventTransfer(TransferEvent e) {
+	}
+
+	public AllTagView getAllTagView() {
+		return allTagView;
+	}
+
+	public void setAllTagView(AllTagView allTagView) {
+		this.allTagView = allTagView;
 	}
 }

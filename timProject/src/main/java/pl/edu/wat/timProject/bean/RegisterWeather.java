@@ -6,14 +6,14 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import pl.edu.wat.timProject.dataModel.hibernate.Weather;
 import pl.edu.wat.timProject.services.WeatherService;
 
 @ManagedBean(name = "weatherReg")
-@SessionScoped
+@ViewScoped
 public class RegisterWeather implements Serializable {
 	private static final long serialVersionUID = -4359280736416081580L;
 
