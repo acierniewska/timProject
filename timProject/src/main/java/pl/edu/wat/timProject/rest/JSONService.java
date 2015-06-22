@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.json.JSONException;
@@ -18,16 +19,18 @@ import org.springframework.stereotype.Component;
 import pl.edu.wat.timProject.dataModel.hibernate.Clothes;
 import pl.edu.wat.timProject.dataModel.hibernate.ClothesType;
 import pl.edu.wat.timProject.dataModel.hibernate.Colour;
+import pl.edu.wat.timProject.dataModel.hibernate.Event;
+import pl.edu.wat.timProject.dataModel.hibernate.Matched;
 import pl.edu.wat.timProject.dataModel.hibernate.Tag;
 import pl.edu.wat.timProject.services.ClothesService;
 import pl.edu.wat.timProject.services.ClothesTypeService;
 import pl.edu.wat.timProject.services.ColourService;
+import pl.edu.wat.timProject.services.EventService;
 import pl.edu.wat.timProject.services.TagService;
 
 @Component
 @Path("/clothes")
 public class JSONService {
-
 	@Autowired
 	private ClothesService clothesService;
 	@Autowired
@@ -36,6 +39,10 @@ public class JSONService {
 	private ClothesTypeService clothesTypeService;
 	@Autowired
 	private ColourService colourService;
+	@Autowired
+	private EventService eventService;
+	@Autowired
+	private ClothesMatcher clothesMatcher;
 
 	@GET
 	@Path("/get")
@@ -44,6 +51,21 @@ public class JSONService {
 		List<Clothes> clothes = clothesService.listAll();
 
 		return clothes;
+	}
+
+	@GET
+	@Path("/match")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Matched getMatchInJSON(
+			@QueryParam(value = "eventName") String eventName,
+			@QueryParam(value = "temp") String temp) {
+		int temperature = Integer.valueOf(temp);
+		Event event = eventService.getByName(eventName);
+		clothesMatcher.setTemp(temperature);
+		clothesMatcher.setEvent(event);
+		Matched match = clothesMatcher.addMatch();
+
+		return match;
 	}
 
 	@POST
@@ -115,5 +137,21 @@ public class JSONService {
 
 	public void setColourService(ColourService colourService) {
 		this.colourService = colourService;
+	}
+
+	public EventService getEventService() {
+		return eventService;
+	}
+
+	public void setEventService(EventService eventService) {
+		this.eventService = eventService;
+	}
+
+	public ClothesMatcher getClothesMatcher() {
+		return clothesMatcher;
+	}
+
+	public void setClothesMatcher(ClothesMatcher clothesMatcher) {
+		this.clothesMatcher = clothesMatcher;
 	}
 }
