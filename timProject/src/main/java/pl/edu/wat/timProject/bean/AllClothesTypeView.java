@@ -135,6 +135,8 @@ public class AllClothesTypeView implements Serializable {
 	}
 
 	public ClothesTypeEnum enumFromIntValue(ClothesType selectedClothesType) {
+		if (selectedClothesType.getClothesTypeValue() == null)
+			return ClothesTypeEnum.BOTTOM;
 		return ClothesTypeEnum.values()[selectedClothesType
 				.getClothesTypeValue()];
 	}
