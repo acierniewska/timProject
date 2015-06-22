@@ -18,6 +18,15 @@ public class ClothesTypeService implements Serializable {
 	private SessionFactory sessionFactory;
 
 	@Transactional
+	public ClothesType getByName(String name) {
+		List list = getSessionFactory().getCurrentSession()
+				.createQuery(" from ClothesType where clothesTypeName = ?")
+				.setParameter(0, name).list();
+
+		return (ClothesType) list.get(0);
+	}
+
+	@Transactional
 	public void register(ClothesType ct) {
 		sessionFactory.getCurrentSession().save(ct);
 	}

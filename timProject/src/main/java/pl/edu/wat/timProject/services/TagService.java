@@ -18,6 +18,15 @@ public class TagService implements Serializable {
 	private SessionFactory sessionFactory;
 
 	@Transactional
+	public Tag getByName(String name) {
+		List list = getSessionFactory().getCurrentSession()
+				.createQuery(" from Tag where tagName = ?")
+				.setParameter(0, name).list();
+
+		return (Tag) list.get(0);
+	}
+
+	@Transactional
 	public void register(Tag tag) {
 		sessionFactory.getCurrentSession().save(tag);
 	}

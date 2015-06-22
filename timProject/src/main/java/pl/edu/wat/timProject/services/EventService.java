@@ -24,6 +24,15 @@ public class EventService implements Serializable {
 	}
 
 	@Transactional
+	public Event getByName(String name) {
+		List list = getSessionFactory().getCurrentSession()
+				.createQuery(" from Event where eventName = ?")
+				.setParameter(0, name).list();
+
+		return (Event) list.get(0);
+	}
+
+	@Transactional
 	public void update(Event event) {
 		getSessionFactory().getCurrentSession().update(event);
 	}

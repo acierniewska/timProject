@@ -18,6 +18,15 @@ public class ColourService implements Serializable {
 	private SessionFactory sessionFactory;
 
 	@Transactional
+	public Colour getByName(String name) {
+		List list = getSessionFactory().getCurrentSession()
+				.createQuery(" from Colour where colourName = ?")
+				.setParameter(0, name).list();
+
+		return (Colour) list.get(0);
+	}
+
+	@Transactional
 	public void register(Colour colour) {
 		sessionFactory.getCurrentSession().save(colour);
 	}

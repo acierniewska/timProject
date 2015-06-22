@@ -4,53 +4,135 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
 	xmlns:of="http://omnifaces.org/functions">
-<h:head>
-	<title>Register Employee</title>
-</h:head>
-<h:form id="mainForm">
-	<p:dataGrid var="clothes" value="#{allClothesView.clothes}" columns="6"
-		layout="grid" rows="12" paginator="true"
-		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-		rowsPerPageTemplate="6,12,16">
-		<f:facet name="header">Ubrania</f:facet>
-			<h:panelGrid columns="1" width="150">
-				<o:graphicImage value="#{imageStreamer.getById(clothes.clothesId)}"
-					height="195px" width="150px" />
-				<p:commandLink update=":mainForm:dlg" oncomplete="PF('dlg').show()"
-					title="Wyświetl szczegóły">
-					<f:setPropertyActionListener value="#{clothes}"
-						target="#{allClothesView.selectedClothes}" />
-					<h:outputText styleClass="ui-icon ui-icon-search"
-						style="margin:0 auto;" />
-				</p:commandLink>
-			</h:panelGrid>
-	</p:dataGrid>
+<h:body>
+	<ui:composition template="template.xhtml">
+		<ui:define name="content">
+			<h:form id="mainForm">
+				<p:dataGrid var="clothes" value="#{allClothesView.clothes}"
+					columns="6" layout="grid" rows="12" paginator="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					<f:facet name="header">Ubrania</f:facet>
+					<h:panelGrid columns="1" width="150">
+						<o:graphicImage
+							value="#{imageStreamer.getById(clothes.clothesId)}"
+							height="200px" width="150px" />
+						<h:panelGrid columns="3" width="150">
+							<p:commandLink update=":mainForm:dlg"
+								oncomplete="PF('dlg').show()" title="Wyświetl szczegóły">
+								<f:setPropertyActionListener value="#{clothes}"
+									target="#{allClothesView.selectedClothes}" />
+								<h:outputText styleClass="ui-icon ui-icon-search"
+									style="margin:0 auto;" />
+							</p:commandLink>
 
-	<p:dialog id="dlg" header="Podgląd zdjęcia" widgetVar="dlg"
-		modal="true" draggable="false" resizable="false">
-		<h:panelGrid columns="2">
-			<o:graphicImage
-				value="#{imageStreamer.getById(allClothesView.selectedClothes.clothesId)}"
-				width="510px" height="680px" />
+							<p:commandLink update=":modify:Mdlg"
+								oncomplete="PF('Mdlg').show()" title="Modyfikuj">
+								<f:setPropertyActionListener value="#{clothes}"
+									target="#{allClothesView.selectedClothes}" />
+								<h:outputText styleClass="ui-icon ui-icon-pencil"
+									style="margin:0 auto;" />
+							</p:commandLink>
+							<p:commandLink action="#{allClothesView.deleteSelectedClothes}"
+								type="button" title="Usuń" update=":mainForm">
+								<f:setPropertyActionListener value="#{clothes}"
+									target="#{allClothesView.selectedClothes}" />
+								<h:outputText styleClass="ui-icon ui-icon-close"
+									style="margin:0 auto;" />
+							</p:commandLink>
+						</h:panelGrid>
+					</h:panelGrid>
+				</p:dataGrid>
 
-			<h:panelGrid columns="2">
-				<h:outputText value="Typ ubrania: " style="font-weight: bold;" />
-				<h:outputText
-					value="#{allClothesView.selectedClothes.clothesType.clothesTypeName}" />
-				
-				<h:outputText value="Kolor główny: " style="font-weight: bold;" />
-				<h:outputText
-					value="#{allClothesView.selectedClothes.mainColor.colourName}" />
-				
-				<h:outputText value="Opis ubrania: " style="font-weight: bold;" />
-				<h:outputText value="#{allClothesView.selectedClothes.clothesDesc}" />
-				
-				<h:outputText value="Tagi ubrania: " style="font-weight: bold"/>
-				<p:dataList value="#{allClothesView.selectedClothes.clothesTags}" var="t" type="definition">
-				#{t.tagName}
-				</p:dataList>
-			</h:panelGrid>
-		</h:panelGrid>
-	</p:dialog>
-</h:form>
+				<p:dialog id="dlg" header="Podgląd zdjęcia" widgetVar="dlg"
+					modal="true" draggable="false" resizable="false">
+					<h:panelGrid columns="2">
+						<h:panelGrid columns="1" style="text-align: left;">
+							<h:outputText value="Typ ubrania: " style="font-weight: bold;" />
+							<h:outputText
+								value="#{allClothesView.selectedClothes.clothesType.clothesTypeName}" />
+
+							<h:outputText value="Kolor główny: " style="font-weight: bold;" />
+							<h:outputText
+								value="#{allClothesView.selectedClothes.mainColor.colourName}" />
+
+							<h:outputText value="Opis ubrania: " style="font-weight: bold;" />
+							<p:inputTextarea disabled="true" autoResize="false"
+								value="#{allClothesView.selectedClothes.clothesDesc}" cols="3"
+								style="width:492px !important" />
+
+							<h:outputText for="tags" value="Tagi ubrania: "
+								style="font-weight: bold" />
+							<p:autoComplete disabled="true" id="tags" multiple="true"
+								value="#{allClothesView.selectedClothes.clothesTags}" var="tag"
+								itemLabel="#{tag.tagName}" itemValue="#{tag}"
+								converter="#{tagConverter}" forceSelection="true">
+								<p:column>
+									<h:outputText value="#{tag.tagName}" />
+								</p:column>
+							</p:autoComplete>
+						</h:panelGrid>
+
+						<o:graphicImage
+							value="#{imageStreamer.getById(allClothesView.selectedClothes.clothesId)}"
+							width="430px" height="580px" />
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+
+			<h:form id="modify">
+				<p:dialog id="Mdlg" header="Edycja zdjęcia" widgetVar="Mdlg"
+					modal="true" draggable="false" resizable="false">
+					<p:panelGrid columns="2" style="text-align: left;">
+						<p:outputLabel for="type" value="Typ ubrania:" />
+						<p:selectOneMenu id="type"
+							value="#{allClothesView.selectedClothes.clothesType}"
+							converter="omnifaces.SelectItemsConverter"
+							style="width:500px !important">
+							<f:selectItem itemLabel="Wybierz rodzaj ubrania"
+								noSelectionOption="true" />
+							<f:selectItems value="#{clothesReg.clothesTypes}" var="type"
+								itemLabel="#{type.clothesTypeName}" itemValue="#{type}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="colour" value="Główny kolor:" />
+						<p:selectOneMenu id="colour"
+							value="#{allClothesView.selectedClothes.mainColor}"
+							converter="omnifaces.SelectItemsConverter"
+							style="width:500px !important">
+							<f:selectItem itemLabel="Wybierz kolor" noSelectionOption="true" />
+							<f:selectItems value="#{clothesReg.colours}" var="c"
+								itemLabel="#{c.colourName}" itemValue="#{c}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Opis ubrania:" />
+						<p:inputTextarea
+							value="#{allClothesView.selectedClothes.clothesDesc}" cols="3"
+							autoResize="false" style="width:492px !important" />
+
+						<h:outputText for="tags" value="Tagi ubrania: "
+							style="font-weight: bold" />
+						<p:autoComplete id="themes" multiple="true"
+							value="#{allClothesView.selectedClothes.clothesTags}"
+							completeMethod="#{allClothesView.completeTag}" var="tag"
+							itemLabel="#{tag.tagName}" itemValue="#{tag}"
+							converter="#{tagConverter}" forceSelection="true">
+							<p:column>
+								<h:outputText value="#{tag.tagName}" />
+							</p:column>
+							<p:ajax event="itemSelect"
+								listener="#{allClothesView.handleSelect}" />
+						</p:autoComplete>
+					</p:panelGrid>
+
+					<p:commandButton value="Zatwierdź zmiany" style="text-align: left;"
+						icon="ui-icon-check" action="#{allClothesView.update}"
+						ajax="false" />
+				</p:dialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+
+</h:body>
 </html>
