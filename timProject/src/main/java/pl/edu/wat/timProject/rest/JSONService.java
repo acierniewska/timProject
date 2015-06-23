@@ -69,6 +69,21 @@ public class JSONService {
 	}
 
 	@POST
+	@Path("/rate")
+	@Consumes("application/json;charset=utf-8")
+	public void updateRateInJSON(String src) {
+		try {
+			JSONObject jsonObject = new JSONObject(src);
+			long matchedId = Long.valueOf(jsonObject.getString("matchedId"));
+			int rate = Integer.valueOf(jsonObject.getString("rate"));
+			clothesMatcher.updateMatched(matchedId, rate);
+		} catch (NumberFormatException | JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@POST
 	@Path("/post")
 	@Consumes("application/json;charset=utf-8")
 	public void createClothes(String src) {

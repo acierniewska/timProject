@@ -40,6 +40,15 @@ public class MatchedService implements Serializable {
 				.createQuery("from Matched").list();
 	}
 
+	@Transactional
+	public Matched getById(long matchedId) {
+		List list = getSessionFactory().getCurrentSession()
+				.createQuery(" from Matched where matchedId = ?")
+				.setParameter(0, matchedId).list();
+
+		return (Matched) list.get(0);
+	}
+
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}

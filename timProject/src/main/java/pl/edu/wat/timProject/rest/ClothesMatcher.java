@@ -37,9 +37,16 @@ public class ClothesMatcher {
 
 	public Matched addMatch() {
 		Matched match = findMatch();
-		matchService.register(match);
+		if (match.getMatchedId() != -1l)
+			matchService.register(match);
 
 		return match;
+	}
+
+	public void updateMatched(long id, int rate) {
+		Matched m = matchService.getById(id);
+		m.setRate(rate);
+		matchService.update(m);
 	}
 
 	private Matched findMatch() {
@@ -52,14 +59,21 @@ public class ClothesMatcher {
 		List<Tag> tags = event.getEventsTag();
 		List<ClothesType> clothesTypes = event.getEventsClothesTypes();
 
+		rejectNotSuitableClothesTypes(clothesTypes);
+		if (clothesTypes.isEmpty()) {
+			match.setMatchedId(-1L);
+			return match;
+		}
 		rejectNotSuitableClothes(allClothes, tags, clothesTypes);
+
 		if (allClothes.isEmpty()) {
+			match.setMatchedId(-1L);
 			return match;
 		}
 
 		if (!bothClothes.isEmpty() && random.nextInt(10) > random.nextInt(6)) {
 			matchedClothes.add(getClothesFromList(bothClothes));
-			match.setMatchedClothes(matchedClothes);
+			// match.setMatchedClothes(matchedClothes);
 
 			return match;
 		}
@@ -85,7 +99,10 @@ public class ClothesMatcher {
 		 * } }
 		 */
 
-		match.setMatchedClothes(matchedClothes);
+		// match.setMatchedClothes(matchedClothes);
+		if (matchedClothes.isEmpty()) {
+			match.setMatchedId(-1L);
+		}
 
 		return match;
 	}
@@ -98,9 +115,11 @@ public class ClothesMatcher {
 	}
 
 	public Clothes getClothesFromList(List<Clothes> list) {
-		int index = random.nextInt(list.size() - 1);
+		if (list.size() == 1) {
+			return list.get(0);
+		}
 
-		return list.get(index);
+		return list.get(random.nextInt(list.size() - 1));
 	}
 
 	public void rejectNotSuitableClothes(List<Clothes> allClothes,
@@ -108,19 +127,14 @@ public class ClothesMatcher {
 		Iterator<Clothes> clothesIterator = allClothes.iterator();
 		while (clothesIterator.hasNext()) {
 			Clothes clothes = clothesIterator.next();
-			Iterator<ClothesType> clothesTypeIterator = clothesTypes.iterator();
+
 			boolean iteratorRemoved = false;
-			while (clothesTypeIterator.hasNext() && !iteratorRemoved) {
-				ClothesType clothesType = clothesTypeIterator.next();
-				if (isNotProperForWeather(clothesType.getWeather())) {
-					clothesTypeIterator.remove();
-					continue;
-				}
-				if (!clothesTypes.contains(clothes.getClothesType())) {
-					clothesIterator.remove();
-					iteratorRemoved = true;
-				}
+
+			if (!clothesTypes.contains(clothes.getClothesType())) {
+				clothesIterator.remove();
+				iteratorRemoved = true;
 			}
+
 			if (iteratorRemoved) {
 				continue;
 			}
@@ -138,6 +152,17 @@ public class ClothesMatcher {
 			}
 
 			addClothesToProperList(clothes);
+		}
+	}
+
+	public void rejectNotSuitableClothesTypes(List<ClothesType> clothesTypes) {
+		Iterator<ClothesType> clothesTypeIterator = clothesTypes.iterator();
+		while (clothesTypeIterator.hasNext()) {
+			ClothesType clothesType = clothesTypeIterator.next();
+			if (isNotProperForWeather(clothesType.getWeather())) {
+				clothesTypeIterator.remove();
+				continue;
+			}
 		}
 	}
 
