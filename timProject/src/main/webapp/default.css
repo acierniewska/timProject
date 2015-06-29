@@ -1,6 +1,67 @@
+.ui-menu{
+	padding-top: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	border-style: none!important;
+}
+
+.ui-widget-header{
+	color: #049abe!important;
+}
+
+.ui-widget{
+	padding-bottom: 0px!important;
+}
 .ui-panelgrid td {
 	border-color: white !important;
 	background-color: white !important;
+}
+
+.ui-corner-all, .ui-datagrid-header, ui-widget-header ui-corner-top {
+   -webkit-border-radius:.0 !important;
+   border-radius: 0 !important;
+}
+
+.ui-toolbar-group-left{
+	text-align: center!important;
+}
+
+.ui-panelgrid td, .ui-panelgrid tr
+{
+    border-style: none !important;
+}
+
+.ui-paginator{
+	-webkit-border-radius:.0 !important;
+   border-radius: 0 !important;
+}
+
+.ui-datatable.ui-corner-all table {
+    border-collapse: separate;
+    *border-collapse: collapse; /* Fallback for IE <=7. */
+    border-spacing: 0; 
+}
+.ui-datatable.ui-corner-all table tr:first-child th:first-child {
+    -moz-border-radius: 6px 0 0 0; -webkit-border-radius: 6px 0 0 0; border-radius: 6px 0 0 0;
+}
+.ui-datatable.ui-corner-all table tr:first-child th:last-child {
+    -moz-border-radius: 0 6px 0 0; -webkit-border-radius: 0 6px 0 0; border-radius: 0 6px 0 0;
+}
+.ui-datatable.ui-corner-all table tr:first-child th:only-child{
+    -moz-border-radius: 6px 6px 0 0; -webkit-border-radius: 6px 6px 0 0; border-radius: 6px 6px 0 0;
+}
+.ui-datatable.ui-corner-all table tbody td {
+    border-top: 0;
+    *border-top: inherit; /* Fallback for IE <=7. */
+}
+.ui-datatable.ui-corner-all table tr:last-child td:first-child {
+    -moz-border-radius: 0 0 0 6px; -webkit-border-radius: 0 0 0 6px; border-radius: 0 0 0 6px;
+}
+.ui-datatable.ui-corner-all table tr:last-child td:last-child {
+    -moz-border-radius: 0 0 6px 0; -webkit-border-radius: 0 0 6px 0; border-radius: 0 0 6px 0;
+}
+.ui-datatable.ui-corner-all table tr:last-child td:only-child{
+    -moz-border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; border-radius: 0 0 6px 6px;
 }
 
 .ui-tabs-left>.ui-tabs-nav {
@@ -18,9 +79,14 @@
 .ui-icon.fa {
 	text-indent: 0px;
 	background-image: none;
-	height: 17px;
+	height: 20px;
 	width: 25px;
-	color: #fcd113;
+	text-shadow: 2px 2px 1px powderblue;
+}
+
+.ui-state-active{
+	background: #049ABE!important;
+	border-color: white!important;
 }
 
 .ui-datagrid-column {
@@ -39,6 +105,8 @@
 
 #header {
 	text-align: left;
+	width: 82.5%;
+	float: right;
 }
 
 #menu {
@@ -50,8 +118,7 @@
 
 #content {
 	float: right;
-	width: 83%;
-	margin-top: 10px;
+	width: 82.5%;
 }
 
 #wrapper {

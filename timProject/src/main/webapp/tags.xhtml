@@ -14,8 +14,8 @@
 					<p:dataTable var="tag" value="#{allTagView.tags}"
 						rowKey="#{allTagView.selectedTag.tagId}" rows="12"
 						paginator="true">
-						<f:facet name="header">Wydarzenia</f:facet>
-						<p:column headerText="Nazwa wydarzenia">
+						<f:facet name="header">Tagu</f:facet>
+						<p:column headerText="Nazwa taga">
 							<h:outputText value="#{tag.tagName}" />
 						</p:column>
 						<p:column width="15">
@@ -70,7 +70,7 @@
 					</p:panelGrid>
 				</p:panelGrid>
 
-				<p:dialog id="dlg" header="Podgląd tagu" widgetVar="dlg"
+				<p:dialog id="dlg" header="Podgląd taga" widgetVar="dlg"
 					modal="true">
 					<p:panelGrid columns="2">
 						<h:outputText value="Nazwa: " style="font-weight: bold;" />

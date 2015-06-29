@@ -3,6 +3,7 @@ package pl.edu.wat.timProject.services;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,8 +37,15 @@ public class MatchedService implements Serializable {
 
 	@Transactional
 	public List<Matched> listAll() {
-		return getSessionFactory().getCurrentSession()
-				.createQuery("from Matched").list();
+		List<Matched> list = getSessionFactory().getCurrentSession()
+				.createQuery("from Matched m ").list();
+
+		for (Matched m : list) {
+			Hibernate.initialize(m.getMatchedClothes());
+		}
+
+		return list;
+
 	}
 
 	@Transactional

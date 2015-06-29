@@ -22,6 +22,8 @@ public class TagService implements Serializable {
 		List list = getSessionFactory().getCurrentSession()
 				.createQuery(" from Tag where tagName = ?")
 				.setParameter(0, name).list();
+		if (list.isEmpty())
+			return null;
 
 		return (Tag) list.get(0);
 	}

@@ -11,8 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,6 +32,11 @@ public class Matched implements Serializable {
 	@Column(name = "matched_date", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private java.util.Date matchedDate;
+
+	@ManyToOne(targetEntity = Event.class)
+	@org.hibernate.annotations.Cascade({ org.hibernate.annotations.CascadeType.LOCK })
+	@JoinColumns({ @JoinColumn(name = "event_id", referencedColumnName = "event_id", nullable = false) })
+	private Event matchedEvent;
 
 	@Column(name = "rate", nullable = false)
 	private int rate;
@@ -70,11 +77,19 @@ public class Matched implements Serializable {
 		this.matchedClothes = matchedClothes;
 	}
 
+	public Event getMatchedEvent() {
+		return matchedEvent;
+	}
+
+	public void setMatchedEvent(Event matchedEvent) {
+		this.matchedEvent = matchedEvent;
+	}
+
 	@Override
 	public String toString() {
 		return "Matched [matchedId=" + matchedId + ", matchedDate="
-				+ matchedDate + ", rate=" + rate + ", matchedClothes="
-				+ matchedClothes + "]";
+				+ matchedDate + ", matchedEvent=" + matchedEvent + ", rate="
+				+ rate + ", matchedClothes=" + matchedClothes + "]";
 	}
 
 	@Override
@@ -85,6 +100,8 @@ public class Matched implements Serializable {
 				+ ((matchedClothes == null) ? 0 : matchedClothes.hashCode());
 		result = prime * result
 				+ ((matchedDate == null) ? 0 : matchedDate.hashCode());
+		result = prime * result
+				+ ((matchedEvent == null) ? 0 : matchedEvent.hashCode());
 		result = prime * result + (int) (matchedId ^ (matchedId >>> 32));
 		result = prime * result + rate;
 		return result;
@@ -109,11 +126,15 @@ public class Matched implements Serializable {
 				return false;
 		} else if (!matchedDate.equals(other.matchedDate))
 			return false;
+		if (matchedEvent == null) {
+			if (other.matchedEvent != null)
+				return false;
+		} else if (!matchedEvent.equals(other.matchedEvent))
+			return false;
 		if (matchedId != other.matchedId)
 			return false;
 		if (rate != other.rate)
 			return false;
 		return true;
 	}
-
 }

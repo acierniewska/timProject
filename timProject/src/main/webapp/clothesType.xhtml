@@ -16,7 +16,7 @@
 						value="#{allClothesTypeView.clothesTypes}"
 						rowKey="#{allClothesTypeView.selectedClothesType.clothesTypeId}"
 						rows="12" paginator="true">
-						<f:facet name="header">Wydarzenia</f:facet>
+						<f:facet name="header">Rodzaje ubrań</f:facet>
 						<p:column headerText="Nazwa rodzaju ubrania">
 							<h:outputText value="#{clothesType.clothesTypeName}" />
 						</p:column>
@@ -102,7 +102,7 @@
 					</p:panelGrid>
 				</p:panelGrid>
 
-				<p:dialog id="dlg" header="Podgląd tagu" widgetVar="dlg"
+				<p:dialog id="dlg" header="Podgląd rodzaju ubrania" widgetVar="dlg"
 					modal="true">
 					<p:panelGrid columns="2">
 						<h:outputText value="Nazwa: " style="font-weight: bold;" />
@@ -160,7 +160,7 @@
 							showTargetFilter="true" filterMatchMode="contains"
 							converter="#{eventConverter}" style="width:20px!important">
 							<f:facet name="sourceCaption">Dostępne</f:facet>
-							<f:facet name="targetCaption">Wydarzenia</f:facet>
+							<f:facet name="targetCaption">Posiadane</f:facet>
 
 							<p:ajax event="transfer" listener="#{tagReg.onEventTransfer}" />
 						</p:pickList>

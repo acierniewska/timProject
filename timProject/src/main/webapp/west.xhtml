@@ -6,27 +6,41 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-
 <body>
 	<ui:composition>
 		<h:form>
-			<p:menu style="height:680px">
+			<p:toolbar style="text-align:center;">
+				<f:facet name="left" style="txt-align: center!important;">
+					<h:outputLabel value="DressCodeWeb"
+						style="padding:10px;font-size:32px;float:right;" />
+					<br />
+					<h:graphicImage width="68" height="68" url="logo1.png" />
+				</f:facet>
+			</p:toolbar>
+			<p:menu style="width:300px!important;height:516px!important">
 				<p:submenu label="Główne">
 					<p:menuitem value="Spis wszystkich ubrań" url="index.xhtml"
-						icon="fa fa-calendar" />
+						icon="fa fa-diamond" />
 					<p:menuitem value="Dodaj nowe ubranie" url="clothes.xhtml"
-						icon="fa fa-calendar" />
+						icon="fa fa-upload" />
 				</p:submenu>
 				<p:submenu label="Zarządzanie">
 					<p:menuitem value="Wydarzenia" url="events.xhtml"
-						icon="fa fa-university" />
-					<p:menuitem value="Tagi" url="tags.xhtml" icon="fa fa-laptop" />
+						icon="fa fa-random" />
+					<p:menuitem value="Tagi" url="tags.xhtml" icon="fa fa-tags" />
 					<p:menuitem value="Rodzaje ubrań" url="clothesType.xhtml"
-						icon="fa fa-film" />
+						icon="fa fa-gears" />
 					<p:menuitem value="Rodzaje pogody" url="weather.xhtml"
-						icon="fa fa-film" />
+						icon="fa fa-cloud" />
 				</p:submenu>
 			</p:menu>
+
+			<p:toolbar style="height:31px;text-align:center;">
+				<f:facet name="left">
+					<p:outputLabel escape="false"
+						value="Autor: Anna Cierniewska I4B2S4&lt;br/&gt;" style="font-size:14px;" />
+				</f:facet>
+			</p:toolbar>
 		</h:form>
 	</ui:composition>
 </body>

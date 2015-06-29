@@ -108,7 +108,9 @@ public class JSONService {
 			List<Tag> tags = new ArrayList<>();
 			for (String tag : clothesTags.trim().split(",")) {
 				Tag t = tagService.getByName(tag.trim());
-				tags.add(t);
+				if (t != null) {
+					tags.add(t);
+				}
 			}
 			clothes.setClothesTags(tags);
 

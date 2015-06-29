@@ -146,5 +146,10 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.6</version>
 		</dependency>
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>all-themes</artifactId>
+			<version>1.0.10</version>
+		</dependency>
 	</dependencies>
 </project>

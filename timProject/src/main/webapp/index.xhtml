@@ -8,7 +8,7 @@
 	<ui:composition template="template.xhtml">
 		<ui:define name="content">
 			<h:form id="mainForm">
-				<p:dataGrid var="clothes" value="#{allClothesView.clothes}"
+				<p:dataGrid var="clothes" value="#{allClothesView.clothes}" styleClass="ui-corner-all"
 					columns="6" layout="grid" rows="12" paginator="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<f:facet name="header">Ubrania</f:facet>

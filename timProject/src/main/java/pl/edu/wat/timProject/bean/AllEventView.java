@@ -78,7 +78,7 @@ public class AllEventView implements Serializable {
 		this.tags = new DualListModel<Tag>(srcTag, selectedEvent.getEventsTag());
 
 		List<ClothesType> srcClothesTag = clothesTypeService.listAll();
-		srcClothesTag.removeAll(selectedEvent.getEventsTag());
+		srcClothesTag.removeAll(selectedEvent.getEventsClothesTypes());
 		this.clothesType = new DualListModel<ClothesType>(srcClothesTag,
 				selectedEvent.getEventsClothesTypes());
 	}

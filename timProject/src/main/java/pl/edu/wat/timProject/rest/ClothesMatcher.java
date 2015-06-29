@@ -37,7 +37,7 @@ public class ClothesMatcher {
 
 	public Matched addMatch() {
 		Matched match = findMatch();
-		if (match.getMatchedId() != -1l)
+		if (!match.getMatchedClothes().isEmpty())
 			matchService.register(match);
 
 		return match;
@@ -55,6 +55,7 @@ public class ClothesMatcher {
 		Matched match = new Matched();
 		match.setMatchedDate(new Date());
 		match.setMatchedClothes(matchedClothes);
+		match.setMatchedEvent(event);
 
 		List<Tag> tags = event.getEventsTag();
 		List<ClothesType> clothesTypes = event.getEventsClothesTypes();
@@ -71,47 +72,62 @@ public class ClothesMatcher {
 			return match;
 		}
 
+		boolean bothClothesTypeMatched = false;
 		if (!bothClothes.isEmpty() && random.nextInt(10) > random.nextInt(6)) {
 			matchedClothes.add(getClothesFromList(bothClothes));
 			// match.setMatchedClothes(matchedClothes);
 
+			bothClothesTypeMatched = true;
+		}
+
+		if (!bothClothesTypeMatched) {
+			if (!bottomClothes.isEmpty()) {
+				matchedClothes.add(getClothesFromList(bottomClothes));
+			}
+			if (!topClothes.isEmpty()) {
+				matchedClothes.add(getClothesFromList(topClothes));
+			}
+
+			if (matchedClothes.isEmpty() && !bothClothes.isEmpty()) {
+				matchedClothes.add(getClothesFromList(bothClothes));
+				bothClothesTypeMatched = true;
+			}
+		}
+
+		if (matchedClothes.isEmpty()) {
+			match.setMatchedId(-1L);
 			return match;
 		}
 
-		if (!bottomClothes.isEmpty()) {
-			matchedClothes.add(getClothesFromList(bottomClothes));
-		}
-		if (!topClothes.isEmpty()) {
-			matchedClothes.add(getClothesFromList(topClothes));
-		}
 		if (temp < 20 && !coverClothes.isEmpty()) {
 			matchedClothes.add(getClothesFromList(coverClothes));
 		}
 
-		if (matchedClothes.isEmpty() && !bothClothes.isEmpty()) {
-			matchedClothes.add(getClothesFromList(bothClothes));
-		}
-
-		/*
-		 * for (Match oldMatch : matchService.listAll()) { if
-		 * (shouldFindNewMatch(matchedClothes, match, oldMatch)) {
-		 * 
-		 * } }
-		 */
-
-		// match.setMatchedClothes(matchedClothes);
-		if (matchedClothes.isEmpty()) {
-			match.setMatchedId(-1L);
+		for (Matched oldMatch : matchService.listAll()) {
+			if (shouldFindNewMatch(matchedClothes, match, oldMatch)) {
+				match.getMatchedClothes().clear();
+				match.setMatchedId(-2L);
+			}
 		}
 
 		return match;
 	}
 
+	public List<Clothes> copyArray(List<Clothes> matchedClothes) {
+		List<Clothes> newMatchedClothes = new ArrayList<>();
+		for (Clothes c : matchedClothes) {
+			newMatchedClothes.add(c);
+		}
+
+		return newMatchedClothes;
+	}
+
 	public boolean shouldFindNewMatch(List<Clothes> matchedClothes,
 			Matched match, Matched oldMatch) {
+
 		return oldMatch.getMatchedClothes().equals(matchedClothes)
-				&& (oldMatch.getMatchedDate().equals(match.getMatchedDate()) || oldMatch
-						.getRate() <= 2);
+				&& oldMatch.getMatchedEvent().equals(match.getMatchedEvent())
+				&& oldMatch.getRate() <= 2;
 	}
 
 	public Clothes getClothesFromList(List<Clothes> list) {
@@ -168,7 +184,7 @@ public class ClothesMatcher {
 
 	public boolean isNotProperForWeather(Weather weather) {
 		return weather.getTemperatureFrom() > temp
-				|| weather.getTemperatureTo() < temp;
+				|| temp > weather.getTemperatureTo();
 	}
 
 	public void addClothesToProperList(Clothes clothes) {
